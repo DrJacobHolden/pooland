@@ -1,12 +1,11 @@
+/* eslint-disable fp/no-mutation */
 import React from "react";
 import ReactDOM from "react-dom";
 import createAuth0Client from "@auth0/auth0-spa-js";
-
 import { Root } from "./root/Root";
 import "antd/dist/antd.css";
 
 (async () => {
-  // eslint-disable-next-line fp/no-mutation
   window.auth0 = await createAuth0Client({
     domain: "pooland.auth0.com",
     client_id: "EolbT7Pd0I4YyES2rbUH08jgn5EWMfOB",

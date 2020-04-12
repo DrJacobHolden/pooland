@@ -1,12 +1,14 @@
 import React, { useContext, useEffect } from "react";
-import { Button, Spin } from "antd";
-import { useHistory, useLocation } from "react-router-dom";
+import { Spin } from "antd";
+import { Route, useHistory, useLocation } from "react-router-dom";
 
 import { AuthContext } from "root/wrappers/AuthWrapper";
 import { TerminalSwitch } from "root/components/routing/TerminalSwitch";
 
+import { LandingPage } from "./LandingPage";
+
 function RootRouter() {
-  const { checkLogin, parseLogin, signIn, signedIn } = useContext(AuthContext);
+  const { checkLogin, parseLogin, signedIn } = useContext(AuthContext);
   const { pathname } = useLocation("/login");
   const history = useHistory();
 
@@ -29,13 +31,15 @@ function RootRouter() {
     );
   }
 
-  if (signedIn) return <TerminalSwitch />;
+  if (signedIn) {
+    return (
+      <TerminalSwitch>
+        <Route path="/" component={LandingPage} />
+      </TerminalSwitch>
+    );
+  }
 
-  return (
-    <div>
-      <Button onClick={signIn}>Sign In with Auth0</Button>
-    </div>
-  );
+  return <LandingPage />;
 }
 
 export { RootRouter };

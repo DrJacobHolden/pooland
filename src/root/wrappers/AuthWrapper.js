@@ -22,7 +22,12 @@ function AuthWrapper({ children }) {
   }
 
   async function signOut() {
-    await window.auth0.logout();
+    await window.auth0.logout({
+      returnTo:
+        window.location.host === "localhost:3000"
+          ? "http://localhost:3000/login"
+          : "https://www.poo.land/login",
+    });
     setSignedIn(false);
   }
 
