@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
+import { useAuth } from "react-use-auth";
 
-import { AuthContext } from "root/wrappers/AuthWrapper";
 import EmojiRain from "root/components/EmojiRain";
 
 import { useStyles } from "./LandingPage.style";
 
 function LandingPage() {
-  const { signedIn, signIn, signOut } = useContext(AuthContext);
+  const { isAuthenticated, login, logout } = useAuth();
   const classes = useStyles();
 
   return (
@@ -20,15 +20,15 @@ function LandingPage() {
         <EmojiRain active drops={250} />
       </section>
       <footer className={classes.footer}>
-        {signedIn ? (
+        {isAuthenticated() ? (
           <div className={classes.menuRow}>
-            <Link className="ant-btn" to="/finances">
+            <Link className="ant-btn" to="/finance">
               Finance
             </Link>
-            <Button onClick={signOut}>Sign Out</Button>
+            <Button onClick={logout}>Sign Out</Button>
           </div>
         ) : (
-          <Button className={classes.loginButton} onClick={signIn}>
+          <Button className={classes.loginButton} onClick={login}>
             Sign In with Auth0
           </Button>
         )}

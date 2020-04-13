@@ -1,49 +1,19 @@
-import React, { createContext, useState } from "react";
-
-const AuthContext = createContext({});
+import React from "react";
+import { AuthProvider } from "react-use-auth";
+import { useHistory } from "react-router-dom";
 
 function AuthWrapper({ children }) {
-  const [signedIn, setSignedIn] = useState();
-
-  async function checkLogin() {
-    setSignedIn(await window.auth0.isAuthenticated());
-  }
-
-  async function parseLogin() {
-    try {
-      await window.auth0.handleRedirectCallback();
-      setSignedIn(true);
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
-  }
-
-  async function signIn() {
-    await window.auth0.loginWithRedirect();
-  }
-
-  async function signOut() {
-    await window.auth0.logout({
-      returnTo:
-        window.location.host === "localhost:3000"
-          ? "http://localhost:3000/login"
-          : "https://www.poo.land/login",
-    });
-    setSignedIn(false);
-  }
+  const { replace } = useHistory();
 
   return (
-    <AuthContext.Provider
-      value={{
-        checkLogin,
-        parseLogin,
-        signedIn,
-        signIn,
-        signOut,
-      }}
+    <AuthProvider
+      navigate={replace}
+      auth0_domain="pooland.auth0.com"
+      auth0_client_id="EolbT7Pd0I4YyES2rbUH08jgn5EWMfOB"
     >
       {children}
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
-export { AuthWrapper, AuthContext };
+export { AuthWrapper };

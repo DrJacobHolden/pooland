@@ -3,14 +3,8 @@ const errorInCI = process.env.CI ? "error" : "warn";
 
 module.exports = {
   parser: "babel-eslint",
-  extends: [
-    "airbnb",
-    "plugin:fp/recommended",
-    "plugin:ramda/recommended",
-    "prettier",
-    "prettier/react",
-  ],
-  plugins: ["prefer-arrow", "fp", "ramda", "react-hooks", "prettier"],
+  extends: ["airbnb", "plugin:ramda/recommended", "prettier", "prettier/react"],
+  plugins: ["prefer-arrow", "ramda", "react-hooks", "prettier"],
   env: {
     es6: true,
     browser: true,
@@ -30,10 +24,6 @@ module.exports = {
     "no-console": [errorInCI, { allow: ["warn", "error"] }],
     "no-unused-vars": errorInCI,
     "no-debugger": errorInCI,
-    "fp/no-mutation": [2, { exceptions: [{ property: "propTypes" }] }],
-    "fp/no-nil": 0,
-    "fp/no-rest-parameters": 0,
-    "fp/no-unused-expression": 0,
     "import/no-cycle": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-named-default": 0,

@@ -1,29 +1,31 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Route, useLocation } from "react-router-dom";
 import { Spin } from "antd";
-import { Route, useHistory, useLocation } from "react-router-dom";
+import { useAuth } from "react-use-auth";
 
-import { AuthContext } from "root/wrappers/AuthWrapper";
 import { TerminalSwitch } from "root/components/routing/TerminalSwitch";
 
 import { LandingPage } from "./LandingPage";
+import { Finance } from "./routes/finance/Finance";
 
 function RootRouter() {
-  const { checkLogin, parseLogin, signedIn } = useContext(AuthContext);
-  const { pathname } = useLocation("/login");
-  const history = useHistory();
+  const { handleAuthentication, isAuthenticated, isAuthenticating } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    if (pathname === "/login") {
-      parseLogin().then(() => {
-        checkLogin();
-        history.replace("/");
-      });
-    } else {
-      checkLogin();
+    if (pathname === "/auth0_callback") {
+      handleAuthentication();
     }
   }, []);
 
-  if (signedIn === undefined) {
+  useEffect(() => {
+    if (isAuthenticating) {
+      setIsLoading(false);
+    }
+  }, [isAuthenticating]);
+
+  if (isAuthenticating || isLoading) {
     return (
       <div style={{ display: "flex", width: "100%", height: "100%" }}>
         <Spin style={{ margin: "auto" }} />
@@ -31,10 +33,11 @@ function RootRouter() {
     );
   }
 
-  if (signedIn) {
+  if (isAuthenticated()) {
     return (
       <TerminalSwitch>
-        <Route path="/" component={LandingPage} />
+        <Route path="/finance" component={Finance} />
+        <Route exact path="/" component={LandingPage} />
       </TerminalSwitch>
     );
   }
