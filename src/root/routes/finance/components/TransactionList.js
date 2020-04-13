@@ -1,4 +1,5 @@
 import React from "react";
+import { formatRelative } from "date-fns";
 import { gql, useQuery } from "@apollo/client";
 import { useUser } from "root/helpers/useUser";
 
@@ -31,7 +32,7 @@ function TransactionList() {
     <ul>
       {data.transactions.map(({ amount, created_at: created, name, id }) => (
         <li key={id}>
-          {amount} at {created} - {name}
+          {amount} on {name} - {formatRelative(new Date(created), new Date())}
         </li>
       ))}
     </ul>
