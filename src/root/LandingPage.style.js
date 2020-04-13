@@ -37,7 +37,6 @@ const useStyles = createUseStyles({
     gridArea: "2 / 1 / 5 / 6",
 
     position: "relative",
-    backgroundColor: "#EBE3CE",
   },
 
   footer: {

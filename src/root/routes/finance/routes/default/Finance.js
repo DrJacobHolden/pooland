@@ -1,18 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import { TransactionList } from "../../components/TransactionList";
 
 const Finance = () => (
   <div>
-    <header>
-      <h1>Finance</h1>
+    <header
+      style={{ display: "flex", backgroundColor: "#8E562E", height: 100 }}
+    >
+      <h1 style={{ margin: "auto" }}>Finance Dashboard</h1>
     </header>
     <section>
       <TransactionList />
-      <Link className="ant-btn" to="/finance/transactions/add">
-        Add Transaction
-      </Link>
     </section>
   </div>
 );
