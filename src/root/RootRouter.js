@@ -6,7 +6,7 @@ import { useAuth } from "react-use-auth";
 import { TerminalSwitch } from "root/components/routing/TerminalSwitch";
 
 import { LandingPage } from "./LandingPage";
-import { Finance } from "./routes/finance/Finance";
+import { FinanceRouter } from "./routes/finance/FinanceRouter";
 
 function RootRouter() {
   const { handleAuthentication, isAuthenticated, isAuthenticating } = useAuth();
@@ -36,7 +36,7 @@ function RootRouter() {
   if (isAuthenticated()) {
     return (
       <TerminalSwitch>
-        <Route path="/finance" component={Finance} />
+        <Route path="/finance" component={FinanceRouter} />
         <Route exact path="/" component={LandingPage} />
       </TerminalSwitch>
     );
