@@ -1,6 +1,4 @@
-import { gql } from "@apollo/client";
-
-const GET_RECENT_TRANSACTIONS = gql`
+const GET_RECENT_TRANSACTIONS = `
   query getTransactions {
     transactions(order_by: { created_at: desc }, limit: 10) {
       name
@@ -14,7 +12,7 @@ const GET_RECENT_TRANSACTIONS = gql`
   }
 `;
 
-const DELETE_TRANSACTION = gql`
+const DELETE_TRANSACTION = `
   mutation delete_transaction($id: uuid!) {
     delete_transactions(where: { id: { _eq: $id } }) {
       affected_rows

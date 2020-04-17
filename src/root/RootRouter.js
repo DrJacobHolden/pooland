@@ -9,7 +9,12 @@ import { LandingPage } from "./LandingPage";
 import { FinanceRouter } from "./routes/finance/FinanceRouter";
 
 function RootRouter() {
-  const { handleAuthentication, isAuthenticated, isAuthenticating } = useAuth();
+  const {
+    handleAuthentication,
+    isAuthenticated,
+    isAuthenticating,
+    authResult
+  } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const { pathname } = useLocation();
 
@@ -25,7 +30,7 @@ function RootRouter() {
     }
   }, [isAuthenticating]);
 
-  if (isAuthenticating || isLoading) {
+  if (isAuthenticating || isLoading || (isAuthenticated() && !authResult)) {
     return (
       <div style={{ display: "flex", width: "100%", height: "100%" }}>
         <Spin style={{ margin: "auto" }} />

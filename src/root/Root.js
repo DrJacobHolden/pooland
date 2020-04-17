@@ -1,16 +1,16 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
-import { ApolloWrapper } from "root/wrappers/ApolloWrapper";
 import { AuthWrapper } from "root/wrappers/AuthWrapper";
+import { GraphQlWrapper } from "root/wrappers/GraphQlWrapper";
 import { RootRouter } from "./RootRouter";
 
 const Root = () => (
   <BrowserRouter>
     <AuthWrapper>
-      <ApolloWrapper>
+      <GraphQlWrapper>
         <RootRouter />
-      </ApolloWrapper>
+      </GraphQlWrapper>
     </AuthWrapper>
   </BrowserRouter>
 );

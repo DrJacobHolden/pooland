@@ -1,6 +1,4 @@
-import { gql } from "@apollo/client";
-
-const ADD_TRANSACTION = gql`
+const ADD_TRANSACTION = `
   mutation addTransaction($amount: money!, $name: String!, $paid_id: uuid!) {
     insert_transactions(
       objects: { amount: $amount, name: $name, paid_id: $paid_id }
@@ -15,7 +13,7 @@ const ADD_TRANSACTION = gql`
   }
 `;
 
-const GET_TAGS = gql`
+const GET_TAGS = `
   query getTags($limit: Int) {
     tags(limit: $limit, distinct_on: name) {
       name
@@ -23,7 +21,7 @@ const GET_TAGS = gql`
   }
 `;
 
-const ADD_TAG = gql`
+const ADD_TAG = `
   mutation addTag($name: String!, $transactionId: uuid!) {
     insert_tags(objects: { name: $name, transaction_id: $transactionId }) {
       returning {

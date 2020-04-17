@@ -1,6 +1,6 @@
 import React from "react";
 import { formatRelative } from "date-fns";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "graphql-hooks";
 import { Link } from "react-router-dom";
 import { Button, List, Modal, Statistic, Tag } from "antd";
 
@@ -14,8 +14,7 @@ function TransactionList() {
     Modal.confirm({
       title: "Delete Transaction",
       content: "Are you sure you would like to delete this transaction?",
-      onOk: () =>
-        deleteTransaction({ variables: { id } }).then(() => refetch()),
+      onOk: () => deleteTransaction({ variables: { id } }).then(() => refetch())
     });
   };
 
@@ -38,7 +37,7 @@ function TransactionList() {
           actions={[
             <Button onClick={showDelete(id)} type="link">
               Delete
-            </Button>,
+            </Button>
           ]}
         >
           <List.Item.Meta
@@ -48,7 +47,7 @@ function TransactionList() {
               <div>
                 <span>{formatRelative(new Date(created), new Date())}</span>
                 {tags?.map(({ name: tagName }) => (
-                  <Tag>{tagName}</Tag>
+                  <Tag key={tagName}>{tagName}</Tag>
                 ))}
               </div>
             }
