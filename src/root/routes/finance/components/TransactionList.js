@@ -1,38 +1,13 @@
 import React from "react";
 import { formatRelative } from "date-fns";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { Button, List, Modal, Statistic } from "antd";
-import { useUser } from "root/helpers/useUser";
+import { Button, List, Modal, Statistic, Tag } from "antd";
 
-const GET_TRANSACTIONS = gql`
-  query getTransactions($userId: uuid!) {
-    transactions(
-      limit: 10
-      order_by: { created_at: desc }
-      where: { paid_id: { _eq: $userId } }
-    ) {
-      name
-      created_at
-      id
-      amount
-    }
-  }
-`;
-
-const DELETE_TRANSACTION = gql`
-  mutation delete_transaction($id: uuid!) {
-    delete_transactions(where: { id: { _eq: $id } }) {
-      affected_rows
-    }
-  }
-`;
+import { DELETE_TRANSACTION, GET_RECENT_TRANSACTIONS } from "./queries";
 
 function TransactionList() {
-  const userId = useUser();
-  const { loading, data, refetch } = useQuery(GET_TRANSACTIONS, {
-    variables: { userId },
-  });
+  const { loading, data, refetch } = useQuery(GET_RECENT_TRANSACTIONS);
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION);
 
   const showDelete = id => () => {
@@ -58,7 +33,7 @@ function TransactionList() {
       }
       itemLayout="horizontal"
       dataSource={data?.transactions}
-      renderItem={({ amount, created_at: created, name, id }) => (
+      renderItem={({ amount, created_at: created, name, id, tags }) => (
         <List.Item
           actions={[
             <Button onClick={showDelete(id)} type="link">
@@ -69,7 +44,14 @@ function TransactionList() {
           <List.Item.Meta
             avatar={<Statistic value={amount} precision={2} />}
             title={name}
-            description={formatRelative(new Date(created), new Date())}
+            description={
+              <div>
+                <span>{formatRelative(new Date(created), new Date())}</span>
+                {tags?.map(({ name: tagName }) => (
+                  <Tag>{tagName}</Tag>
+                ))}
+              </div>
+            }
           />
         </List.Item>
       )}
