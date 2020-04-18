@@ -3,11 +3,27 @@ import { formatRelative } from "date-fns";
 import { useMutation, useQuery } from "graphql-hooks";
 import { Link } from "react-router-dom";
 import { Button, List, Modal, Statistic, Tag } from "antd";
+import { pipe, tail } from "ramda";
+import { useUser } from "root/helpers/useUser";
 
 import { DELETE_TRANSACTION, GET_RECENT_TRANSACTIONS } from "./queries";
 
+const amountAsFloat = pipe(tail, parseFloat);
+const getValue = (amount, splits) => {
+  if (splits?.length > 0) {
+    return splits.reduce(
+      (acc, { percentage }) => acc - amount * (percentage / 100),
+      amount
+    );
+  }
+  return amount;
+};
+
 function TransactionList() {
-  const { loading, data, refetch } = useQuery(GET_RECENT_TRANSACTIONS);
+  const userId = useUser();
+  const { loading, data, refetch } = useQuery(GET_RECENT_TRANSACTIONS, {
+    variables: { userId }
+  });
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION);
 
   const showDelete = id => () => {
@@ -32,7 +48,7 @@ function TransactionList() {
       }
       itemLayout="horizontal"
       dataSource={data?.transactions}
-      renderItem={({ amount, created_at: created, name, id, tags }) => (
+      renderItem={({ amount, created_at: created, name, id, tags, splits }) => (
         <List.Item
           actions={[
             <Button onClick={showDelete(id)} type="link">
@@ -41,7 +57,14 @@ function TransactionList() {
           ]}
         >
           <List.Item.Meta
-            avatar={<Statistic value={amount} precision={2} />}
+            avatar={
+              <Statistic
+                value={getValue(amountAsFloat(amount), splits)}
+                precision={2}
+                prefix="$"
+                suffix={`/ ${amount}`}
+              />
+            }
             title={name}
             description={
               <div>
