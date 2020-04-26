@@ -41,8 +41,8 @@ const Finance = () => {
             style={{
               backgroundColor: "#619380",
               textAlign: "center",
-              marginBottom: 10,
-              padding: 10
+              marginBottom: 8,
+              padding: 8
             }}
             title="Lifetime Spend"
             precision={2}
@@ -59,7 +59,7 @@ const Finance = () => {
                     backgroundColor: "#619380",
                     textAlign: "center",
                     borderRadius: 10,
-                    padding: 10
+                    padding: 8
                   }}
                   key={owingId}
                   title={
