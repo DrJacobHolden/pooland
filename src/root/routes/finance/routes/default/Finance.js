@@ -1,5 +1,5 @@
 import React from "react";
-import { Statistic, Spin } from "antd";
+import { Col, Row, Statistic } from "antd";
 import { toPairs } from "ramda";
 import { useQuery } from "graphql-hooks";
 
@@ -38,32 +38,48 @@ const Finance = () => {
       <section>
         {spent && (
           <Statistic
+            style={{
+              backgroundColor: "#619380",
+              textAlign: "center",
+              marginBottom: 10,
+              padding: 10
+            }}
             title="Lifetime Spend"
             precision={2}
             prefix="$"
             value={getValue(spent.spent_totals[0].amount)}
           />
         )}
-        {owed &&
-          toPairs(owed).map(([owingId, value]) => (
-            <Statistic
-              key={owingId}
-              title={
-                value > 0 ? (
-                  <span>
-                    <UserName userId={owingId} /> owes you
-                  </span>
-                ) : (
-                  <span>
-                    You owe <UserName userId={owingId} />
-                  </span>
-                )
-              }
-              precision={2}
-              prefix="$"
-              value={Math.abs(value)}
-            />
-          ))}
+        <Row gutter={16} style={{ padding: 16 }}>
+          {owed &&
+            toPairs(owed).map(([owingId, value]) => (
+              <Col>
+                <Statistic
+                  style={{
+                    backgroundColor: "#619380",
+                    textAlign: "center",
+                    borderRadius: 10,
+                    padding: 10
+                  }}
+                  key={owingId}
+                  title={
+                    value > 0 ? (
+                      <span>
+                        <UserName userId={owingId} /> owes you
+                      </span>
+                    ) : (
+                      <span>
+                        You owe <UserName userId={owingId} />
+                      </span>
+                    )
+                  }
+                  precision={2}
+                  prefix="$"
+                  value={Math.abs(value)}
+                />
+              </Col>
+            ))}
+        </Row>
       </section>
       <section>
         <TransactionList />
