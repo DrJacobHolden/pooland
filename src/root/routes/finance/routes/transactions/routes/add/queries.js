@@ -28,7 +28,7 @@ const ADD_TAG = `
 
 const GET_USERS = `
   query getUsers($searchString: String) {
-    users(limit: 5, where: {name: {_like: $searchString}} ) {
+    users(limit: 5, where: {name: {_ilike: $searchString}} ) {
       name
       id
     }

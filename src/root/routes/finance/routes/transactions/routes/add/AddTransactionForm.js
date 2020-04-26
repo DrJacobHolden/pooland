@@ -1,13 +1,5 @@
 import React, { Fragment, useState } from "react";
-import {
-  AutoComplete,
-  Button,
-  Form,
-  Input,
-  Select,
-  Slider,
-  InputNumber
-} from "antd";
+import { Button, Form, Input, Select, Slider, InputNumber } from "antd";
 import { path, range } from "ramda";
 import { useMutation, useQuery } from "graphql-hooks";
 import { useHistory } from "react-router-dom";
@@ -114,17 +106,21 @@ const AddTransactionForm = () => {
             name={["splits", index, "splitUserId"]}
             rules={[{ required: true, message: "Please select a user!" }]}
           >
-            <AutoComplete
+            <Select
+              showSearch
+              optionFilterProp="children"
               onSearch={string => setUserSearch(`%${string}%`)}
               loading={usersLoading}
               placeholder="Jack"
             >
-              {usersData?.users?.map(({ name, id }) => (
-                <AutoComplete.Option key={id} value={id}>
-                  {name}
-                </AutoComplete.Option>
-              ))}
-            </AutoComplete>
+              {usersData?.users
+                ?.filter(({ id }) => id !== userId)
+                .map(({ name, id }) => (
+                  <Select.Option key={id} value={id}>
+                    {name}
+                  </Select.Option>
+                ))}
+            </Select>
           </Form.Item>
           <Form.Item
             label="Split (%)"
