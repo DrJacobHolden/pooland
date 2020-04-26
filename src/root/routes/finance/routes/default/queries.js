@@ -1,25 +1,19 @@
-const GET_WEEKLY_STATS = `
-query getTransactions{
-  transactions(where: {
-    created_at: {
-      _gte: "${new Date(
-        new Date().getTime() - 7 * 24 * 60 * 60 * 1000
-      ).toISOString()}"
-    },
-    _and: {
-      created_at: {
-        _lte: "${new Date().toISOString()}"
-      }
-    }
-  }, order_by: {created_at: desc}) {
+const GET_SPENT = `
+query getSpent{
+  spent_totals {
     amount
-    paid_id
-    splits {
-      percentage
-      user_id
-    }
   }
 }
 `;
 
-export { GET_WEEKLY_STATS };
+const GET_OWED = `
+query getOwed{
+  owed_totals {
+    owes
+    amount
+    to
+  }
+}
+`;
+
+export { GET_SPENT, GET_OWED };
