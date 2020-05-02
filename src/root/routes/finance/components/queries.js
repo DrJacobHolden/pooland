@@ -37,4 +37,28 @@ const DELETE_TRANSACTION = `
   }
 `;
 
-export { GET_USER, GET_RECENT_TRANSACTIONS, DELETE_TRANSACTION };
+const GET_SPENT = `
+query getSpent{
+  spent_totals {
+    amount
+  }
+}
+`;
+
+const GET_OWED = `
+query getOwed{
+  owed_totals {
+    owes
+    amount
+    to
+  }
+}
+`;
+
+export {
+  GET_SPENT,
+  GET_OWED,
+  GET_USER,
+  GET_RECENT_TRANSACTIONS,
+  DELETE_TRANSACTION
+};

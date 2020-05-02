@@ -21,6 +21,7 @@ module.exports = {
   },
   rules: {
     curly: ["error"],
+    camelcase: 0,
     "no-console": [errorInCI, { allow: ["warn", "error"] }],
     "no-unused-vars": errorInCI,
     "no-debugger": errorInCI,

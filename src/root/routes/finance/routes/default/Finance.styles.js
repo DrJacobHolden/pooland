@@ -16,15 +16,6 @@ const useStyles = createUseStyles({
       margin: "auto"
     }
   },
-  statisticSection: {
-    flex: "0 0 auto"
-  },
-  statistic: {
-    backgroundColor: "#619380",
-    textAlign: "center",
-    marginBottom: 8,
-    padding: 8
-  },
   listSection: {
     flex: "1 1 auto",
     overflow: "hidden"
