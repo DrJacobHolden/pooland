@@ -8,6 +8,7 @@ import { useUser } from "root/helpers/useUser";
 import { TransactionList } from "../../components/TransactionList";
 import { UserName } from "../../components/UserName";
 import { GET_SPENT, GET_OWED } from "./queries";
+import { useStyles } from "./Finance.styles";
 
 const getValue = input => parseFloat(input.replace("$", "").replace(",", ""));
 
@@ -15,6 +16,7 @@ const Finance = () => {
   const userId = useUser();
   const { data: spent } = useQuery(GET_SPENT);
   const { data: owedData } = useQuery(GET_OWED);
+  const classes = useStyles();
 
   // eslint-disable-next-line camelcase
   const owed = owedData?.owed_totals.reduce((acc, { to, amount, owes }) => {
@@ -29,21 +31,14 @@ const Finance = () => {
   }, {});
 
   return (
-    <div>
-      <header
-        style={{ display: "flex", backgroundColor: "#8E562E", height: 100 }}
-      >
-        <h1 style={{ margin: "auto" }}>Finance Dashboard</h1>
+    <div className={classes.page}>
+      <header className={classes.header}>
+        <h1>Finance Dashboard</h1>
       </header>
-      <section>
+      <section className={classes.statisticSection}>
         {spent && (
           <Statistic
-            style={{
-              backgroundColor: "#619380",
-              textAlign: "center",
-              marginBottom: 8,
-              padding: 8
-            }}
+            className={classes.statistic}
             title="Lifetime Spend"
             precision={2}
             prefix="$"
@@ -55,12 +50,7 @@ const Finance = () => {
             toPairs(owed).map(([owingId, value]) => (
               <Col>
                 <Statistic
-                  style={{
-                    backgroundColor: "#619380",
-                    textAlign: "center",
-                    borderRadius: 10,
-                    padding: 8
-                  }}
+                  className={classes.statistic}
                   key={owingId}
                   title={
                     value > 0 ? (
@@ -81,7 +71,7 @@ const Finance = () => {
             ))}
         </Row>
       </section>
-      <section>
+      <section className={classes.listSection}>
         <TransactionList />
       </section>
     </div>

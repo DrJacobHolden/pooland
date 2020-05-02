@@ -3,12 +3,13 @@ import { formatRelative } from "date-fns";
 import { useMutation, useQuery } from "graphql-hooks";
 import { Link } from "react-router-dom";
 import { Button, List, Modal, Statistic, Tag } from "antd";
-import { pipe, tail } from "ramda";
 import { useUser } from "root/helpers/useUser";
 
 import { DELETE_TRANSACTION, GET_RECENT_TRANSACTIONS } from "./queries";
+import { useStyles } from "./TransactionList.styles";
 
-const amountAsFloat = pipe(tail, parseFloat);
+const amountAsFloat = input =>
+  parseFloat(input.replace("$", "").replace(",", ""));
 const getValue = (amount, splits) => {
   if (splits?.length > 0) {
     return splits.reduce(
@@ -25,6 +26,7 @@ function TransactionList() {
     variables: { userId }
   });
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION);
+  const classes = useStyles();
 
   const showDelete = id => () => {
     Modal.confirm({
@@ -36,15 +38,17 @@ function TransactionList() {
 
   return (
     <List
-      header={<h3 style={{ paddingLeft: 20 }}>Recent Transactions</h3>}
-      footer={
-        <Link
-          className="ant-btn ant-btn-primary"
-          style={{ marginLeft: "calc(100% - 145px)" }}
-          to="/finance/transactions/add"
-        >
-          Add Transaction
-        </Link>
+      className={classes.root}
+      header={
+        <div className={classes.header}>
+          <h3>Recent Transactions</h3>
+          <Link
+            className="ant-btn ant-btn-primary"
+            to="/finance/transactions/add"
+          >
+            Add Transaction
+          </Link>
+        </div>
       }
       itemLayout="horizontal"
       dataSource={data?.transactions}
