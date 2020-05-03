@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 const BUTTON_OVERRIDES = {
   borderColor: "#CCB676",
   backgroundColor: "#8E562E",
-  color: "#2F2B28"
+  color: "#2F2B28",
 };
 
 const useStyles = createUseStyles({
@@ -14,7 +14,7 @@ const useStyles = createUseStyles({
     gridTemplateColumns: "repeat(5, 1fr)",
     gridTemplateRows: "repeat(5, 1fr)",
     gridColumnGap: "0px",
-    gridRowGap: "0px"
+    gridRowGap: "0px",
   },
 
   header: {
@@ -29,27 +29,27 @@ const useStyles = createUseStyles({
       fontSize: 60,
       textAlign: "center",
       textDecoration: "underline",
-      textDecorationColor: "#CCB676"
-    }
+      textDecorationColor: "#CCB676",
+    },
   },
 
   content: {
     gridArea: "2 / 1 / 5 / 6",
 
-    position: "relative"
+    position: "relative",
   },
 
   footer: {
     gridArea: "5 / 1 / 6 / 6",
 
     backgroundColor: "#619380",
-    display: "flex"
+    display: "flex",
   },
 
   loginButton: {
     ...BUTTON_OVERRIDES,
     transform: "scale(2)",
-    margin: "auto"
+    margin: "auto",
   },
 
   menuRow: {
@@ -62,10 +62,10 @@ const useStyles = createUseStyles({
       marginLeft: 16,
 
       "&:first-child": {
-        marginLeft: 0
-      }
-    }
-  }
+        marginLeft: 0,
+      },
+    },
+  },
 });
 
 export { useStyles };

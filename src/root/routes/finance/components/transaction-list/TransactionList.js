@@ -1,11 +1,8 @@
 import React from "react";
 import { formatRelative } from "date-fns";
-import { useMutation, useQuery } from "graphql-hooks";
 import { Link } from "react-router-dom";
 import { Button, List, Modal, Statistic, Tag } from "antd";
-import { useUser } from "root/helpers/useUser";
 
-import { DELETE_TRANSACTION, GET_RECENT_TRANSACTIONS } from "./queries";
 import { useStyles } from "./TransactionList.styles";
 
 const amountAsFloat = input =>
@@ -20,19 +17,14 @@ const getValue = (amount, splits) => {
   return amount;
 };
 
-function TransactionList() {
-  const userId = useUser();
-  const { loading, data, refetch } = useQuery(GET_RECENT_TRANSACTIONS, {
-    variables: { userId }
-  });
-  const [deleteTransaction] = useMutation(DELETE_TRANSACTION);
+function TransactionList({ data, loading, onDelete }) {
   const classes = useStyles();
 
   const showDelete = id => () => {
     Modal.confirm({
       title: "Delete Transaction",
       content: "Are you sure you would like to delete this transaction?",
-      onOk: () => deleteTransaction({ variables: { id } }).then(() => refetch())
+      onOk: () => onDelete(id),
     });
   };
 
@@ -54,11 +46,15 @@ function TransactionList() {
       dataSource={data?.transactions}
       renderItem={({ amount, created_at: created, name, id, tags, splits }) => (
         <List.Item
-          actions={[
-            <Button onClick={showDelete(id)} type="link">
-              Delete
-            </Button>
-          ]}
+          actions={
+            onDelete
+              ? [
+                  <Button onClick={showDelete(id)} type="link" key="delete">
+                    Delete
+                  </Button>,
+                ]
+              : []
+          }
         >
           <List.Item.Meta
             avatar={

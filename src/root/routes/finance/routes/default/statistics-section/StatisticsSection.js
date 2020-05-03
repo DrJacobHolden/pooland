@@ -5,9 +5,9 @@ import { useQuery } from "graphql-hooks";
 
 import { useUser } from "root/helpers/useUser";
 
-import { UserName } from "./UserName";
+import { UserName } from "../../../components/UserName";
 import { GET_SPENT, GET_OWED } from "./queries";
-import { useStyles } from "./StatisticSection.styles";
+import { useStyles } from "./StatisticsSection.styles";
 
 const getValue = input => parseFloat(input.replace("$", "").replace(",", ""));
 
@@ -35,7 +35,7 @@ const StatisticsSection = () => {
     },
     {
       owed: {},
-      onBehalfSpend: 0
+      onBehalfSpend: 0,
     }
   );
 
@@ -71,10 +71,9 @@ const StatisticsSection = () => {
       </Row>
       <Row gutter={16} style={{ padding: 16 }}>
         {toPairs(owed).map(([owingId, value]) => (
-          <Col>
+          <Col key={owingId}>
             <Statistic
               className={classes.statistic}
-              key={owingId}
               title={
                 value > 0 ? (
                   <span>

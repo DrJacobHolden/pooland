@@ -7,7 +7,7 @@ import {
   path,
   split,
   tail,
-  toPairs
+  toPairs,
 } from "ramda";
 
 const parseQueryParams = compose(

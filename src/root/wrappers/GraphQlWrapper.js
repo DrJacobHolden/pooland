@@ -3,7 +3,7 @@ import { ClientContext, GraphQLClient } from "graphql-hooks";
 import { useAuth } from "react-use-auth";
 
 const client = new GraphQLClient({
-  url: "https://poo-land.herokuapp.com/v1/graphql"
+  url: "https://poo-land.herokuapp.com/v1/graphql",
 });
 
 function GraphQlWrapper({ children }) {

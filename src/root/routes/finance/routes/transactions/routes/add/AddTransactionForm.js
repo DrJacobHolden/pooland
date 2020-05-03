@@ -7,7 +7,7 @@ import {
   Row,
   Select,
   Slider,
-  InputNumber
+  InputNumber,
 } from "antd";
 import { path, range } from "ramda";
 import { useMutation, useQuery } from "graphql-hooks";
@@ -19,7 +19,7 @@ import {
   GET_TAGS,
   ADD_TAG,
   ADD_SPLIT,
-  GET_USERS
+  GET_USERS,
 } from "./queries";
 
 const getAdded = path(["data", "insert_transactions", "returning", 0]);
@@ -29,7 +29,7 @@ const AddTransactionForm = () => {
   const [userSearch, setUserSearch] = useState("%a%");
   const { loading: tagsLoading, data: tagsData } = useQuery(GET_TAGS);
   const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
-    variables: { searchString: userSearch }
+    variables: { searchString: userSearch },
   });
   const [addTransaction] = useMutation(ADD_TRANSACTION);
   const [addTag] = useMutation(ADD_TAG);
@@ -45,8 +45,8 @@ const AddTransactionForm = () => {
       variables: {
         amount: `$${amount}`,
         name,
-        paid_id: userId
-      }
+        paid_id: userId,
+      },
     });
 
     const { id: transactionId } = getAdded(result);
@@ -56,8 +56,8 @@ const AddTransactionForm = () => {
         addTag({
           variables: {
             name: tagName,
-            transactionId
-          }
+            transactionId,
+          },
         })
       ),
       // Add splits
@@ -66,10 +66,10 @@ const AddTransactionForm = () => {
           variables: {
             user_id: splitUserId,
             percentage,
-            transactionId
-          }
+            transactionId,
+          },
         })
-      )
+      ),
     ]);
     setLoading(false);
     history.push("/finance");
@@ -137,7 +137,7 @@ const AddTransactionForm = () => {
                 borderWidth: "2px",
                 borderRadius: 8,
                 padding: 16,
-                marginBottom: 16
+                marginBottom: 16,
               }}
             >
               <Col span={18}>
@@ -166,13 +166,15 @@ const AddTransactionForm = () => {
                   {form => {
                     const splitRemainder = range(0, splitCount).reduce(
                       (acc, splitIndex) => {
-                        if (splitIndex === index) return acc;
+                        if (splitIndex === index) {
+                          return acc;
+                        }
                         return (
                           acc -
                           (form.getFieldValue([
                             "splits",
                             splitIndex,
-                            "percentage"
+                            "percentage",
                           ]) || 0)
                         );
                       },
@@ -185,8 +187,8 @@ const AddTransactionForm = () => {
                         rules={[
                           {
                             required: true,
-                            message: "Please input a percentage!"
-                          }
+                            message: "Please input a percentage!",
+                          },
                         ]}
                       >
                         <InputNumber
@@ -230,7 +232,7 @@ const AddTransactionForm = () => {
                   label="Split (%)"
                   name={["splits", index, "percentage"]}
                   rules={[
-                    { required: true, message: "Please input a percentage!" }
+                    { required: true, message: "Please input a percentage!" },
                   ]}
                 >
                   <Slider
@@ -239,7 +241,7 @@ const AddTransactionForm = () => {
                       25: "25%",
                       50: "50%",
                       75: "75%",
-                      100: "100%"
+                      100: "100%",
                     }}
                     min={0}
                     max={100}
@@ -256,7 +258,7 @@ const AddTransactionForm = () => {
                 borderColor: "#619380",
                 borderWidth: "2px",
                 borderRadius: 8,
-                width: "100%"
+                width: "100%",
               }}
               onClick={() => setSplitCount(splitCount + 1)}
               type="secondary"

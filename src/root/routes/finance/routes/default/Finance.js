@@ -1,10 +1,19 @@
 import React from "react";
+import { useMutation, useQuery } from "graphql-hooks";
 
-import { StatisticsSection } from "../../components/StatisticsSection";
-import { TransactionList } from "../../components/TransactionList";
+import { StatisticsSection } from "./statistics-section/StatisticsSection";
+import { TransactionList } from "../../components/transaction-list/TransactionList";
 import { useStyles } from "./Finance.styles";
+import { useUser } from "root/helpers/useUser";
+
+import { DELETE_TRANSACTION, GET_RECENT_TRANSACTIONS } from "./queries";
 
 const Finance = () => {
+  const userId = useUser();
+  const { loading, data, refetch } = useQuery(GET_RECENT_TRANSACTIONS, {
+    variables: { userId },
+  });
+  const [deleteTransaction] = useMutation(DELETE_TRANSACTION);
   const classes = useStyles();
 
   return (
@@ -14,7 +23,13 @@ const Finance = () => {
       </header>
       <StatisticsSection />
       <section className={classes.listSection}>
-        <TransactionList />
+        <TransactionList
+          data={data}
+          loading={loading}
+          onDelete={id =>
+            deleteTransaction({ variables: { id } }).then(() => refetch())
+          }
+        />
       </section>
     </div>
   );

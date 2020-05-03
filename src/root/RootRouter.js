@@ -13,7 +13,7 @@ function RootRouter() {
     handleAuthentication,
     isAuthenticated,
     isAuthenticating,
-    authResult
+    authResult,
   } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const { pathname } = useLocation();

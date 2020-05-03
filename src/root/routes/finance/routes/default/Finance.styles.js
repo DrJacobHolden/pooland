@@ -5,7 +5,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    width: "100%"
+    width: "100%",
   },
   header: {
     flex: "0 0 100px",
@@ -13,13 +13,13 @@ const useStyles = createUseStyles({
     backgroundColor: "#8E562E",
 
     "& > h1": {
-      margin: "auto"
-    }
+      margin: "auto",
+    },
   },
   listSection: {
     flex: "1 1 auto",
-    overflow: "hidden"
-  }
+    overflow: "hidden",
+  },
 });
 
 export { useStyles };
