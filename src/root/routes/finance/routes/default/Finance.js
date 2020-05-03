@@ -1,12 +1,14 @@
 import React from "react";
 import { useMutation, useQuery } from "graphql-hooks";
+import { Link } from "react-router-dom";
 
+import { Page } from "root/components/Page";
+
+import { DELETE_TRANSACTION, GET_RECENT_TRANSACTIONS } from "./queries";
 import { StatisticsSection } from "./statistics-section/StatisticsSection";
 import { TransactionList } from "../../components/transaction-list/TransactionList";
 import { useStyles } from "./Finance.styles";
 import { useUser } from "root/helpers/useUser";
-
-import { DELETE_TRANSACTION, GET_RECENT_TRANSACTIONS } from "./queries";
 
 const Finance = () => {
   const userId = useUser();
@@ -17,13 +19,18 @@ const Finance = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.page}>
-      <header className={classes.header}>
-        <h1>Finance Dashboard</h1>
-      </header>
+    <Page header="Finance Dashboard">
       <StatisticsSection />
       <section className={classes.listSection}>
         <TransactionList
+          addTransactionButton={
+            <Link
+              className="ant-btn ant-btn-primary"
+              to="/finance/transactions/add"
+            >
+              Add Transaction
+            </Link>
+          }
           data={data}
           loading={loading}
           onDelete={id =>
@@ -31,7 +38,7 @@ const Finance = () => {
           }
         />
       </section>
-    </div>
+    </Page>
   );
 };
 

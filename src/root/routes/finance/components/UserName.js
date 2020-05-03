@@ -6,7 +6,7 @@ import { GET_USER } from "./queries";
 const UserName = ({ userId }) => {
   const { data } = useQuery(GET_USER, { variables: { userId } });
 
-  return <span>{data?.users[0].name}</span>;
+  return <span>{data ? data.users[0].name : "loading..."}</span>;
 };
 
 export { UserName };

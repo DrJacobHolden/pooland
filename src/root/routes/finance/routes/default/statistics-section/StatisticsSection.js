@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Row, Statistic } from "antd";
+import { Link } from "react-router-dom";
 import { toPairs } from "ramda";
 import { useQuery } from "graphql-hooks";
 
@@ -72,23 +73,25 @@ const StatisticsSection = () => {
       <Row gutter={16} style={{ padding: 16 }}>
         {toPairs(owed).map(([owingId, value]) => (
           <Col key={owingId}>
-            <Statistic
-              className={classes.statistic}
-              title={
-                value > 0 ? (
-                  <span>
-                    <UserName userId={owingId} /> owes you
-                  </span>
-                ) : (
-                  <span>
-                    You owe <UserName userId={owingId} />
-                  </span>
-                )
-              }
-              precision={2}
-              prefix="$"
-              value={Math.abs(value)}
-            />
+            <Link to={`/finance/reports/user/${owingId}`}>
+              <Statistic
+                className={classes.statistic}
+                title={
+                  value > 0 ? (
+                    <span>
+                      <UserName userId={owingId} /> owes you
+                    </span>
+                  ) : (
+                    <span>
+                      You owe <UserName userId={owingId} />
+                    </span>
+                  )
+                }
+                precision={2}
+                prefix="$"
+                value={Math.abs(value)}
+              />
+            </Link>
           </Col>
         ))}
       </Row>

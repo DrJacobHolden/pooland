@@ -1,8 +1,8 @@
 import React from "react";
 import { formatRelative } from "date-fns";
-import { Link } from "react-router-dom";
 import { Button, List, Modal, Statistic, Tag } from "antd";
 
+import { UserName } from "../../components/UserName";
 import { useStyles } from "./TransactionList.styles";
 
 const amountAsFloat = input =>
@@ -17,7 +17,14 @@ const getValue = (amount, splits) => {
   return amount;
 };
 
-function TransactionList({ data, loading, onDelete }) {
+function TransactionList({
+  addTransactionButton,
+  data,
+  loading,
+  onDelete,
+  showWho = false,
+  title = "Recent Transactions",
+}) {
   const classes = useStyles();
 
   const showDelete = id => () => {
@@ -33,18 +40,21 @@ function TransactionList({ data, loading, onDelete }) {
       className={classes.root}
       header={
         <div className={classes.header}>
-          <h3>Recent Transactions</h3>
-          <Link
-            className="ant-btn ant-btn-primary"
-            to="/finance/transactions/add"
-          >
-            Add Transaction
-          </Link>
+          <h3>{title}</h3>
+          {addTransactionButton}
         </div>
       }
       itemLayout="horizontal"
       dataSource={data?.transactions}
-      renderItem={({ amount, created_at: created, name, id, tags, splits }) => (
+      renderItem={({
+        amount,
+        created_at: created,
+        name,
+        paid_id,
+        id,
+        tags,
+        splits,
+      }) => (
         <List.Item
           actions={
             onDelete
@@ -65,7 +75,15 @@ function TransactionList({ data, loading, onDelete }) {
                 suffix={`/ ${amount}`}
               />
             }
-            title={name}
+            title={
+              showWho ? (
+                <>
+                  <UserName userId={paid_id} /> bought {name}
+                </>
+              ) : (
+                name
+              )
+            }
             description={
               <div>
                 <span>{formatRelative(new Date(created), new Date())}</span>

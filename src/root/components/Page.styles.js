@@ -1,6 +1,12 @@
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    width: "100%",
+  },
   header: {
     flex: "0 0 100px",
     display: "flex",
@@ -9,10 +15,6 @@ const useStyles = createUseStyles({
     "& > h1": {
       margin: "auto",
     },
-  },
-  listSection: {
-    flex: "1 1 auto",
-    overflow: "hidden",
   },
 });
 
