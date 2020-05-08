@@ -38,7 +38,7 @@ const UserReport = () => {
       ) : (
         <SpendTrend data={reportData} otherUserId={userId} />
       )}
-      <section style={{ flex: "1 1 auto", overflow: "hidden" }}>
+      <section style={{ flex: "1 1 100%", overflow: "hidden" }}>
         <TransactionList
           data={recentTransactions}
           loading={recentTransactionsLoading}

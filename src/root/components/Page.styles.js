@@ -8,7 +8,7 @@ const useStyles = createUseStyles({
     width: "100%",
   },
   header: {
-    flex: "0 0 100px",
+    flex: "0 0 60px",
     display: "flex",
     backgroundColor: "#8E562E",
 

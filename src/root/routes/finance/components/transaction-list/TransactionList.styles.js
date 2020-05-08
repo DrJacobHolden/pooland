@@ -12,15 +12,6 @@ const useStyles = createUseStyles({
 
     "& > .ant-spin-nested-loading": {
       flex: "1 1 auto",
-      overflow: "hidden",
-    },
-
-    "& .ant-spin-container": {
-      height: "100%",
-    },
-
-    "& .ant-list-items": {
-      height: "100%",
       overflowY: "auto",
     },
   },

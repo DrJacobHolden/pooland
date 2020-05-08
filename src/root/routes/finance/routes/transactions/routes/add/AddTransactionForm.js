@@ -21,6 +21,7 @@ import {
   ADD_SPLIT,
   GET_USERS,
 } from "./queries";
+import { Page } from "root/components/Page";
 
 const getAdded = path(["data", "insert_transactions", "returning", 0]);
 
@@ -76,13 +77,15 @@ const AddTransactionForm = () => {
   };
 
   return (
-    <div>
-      <header
-        style={{ display: "flex", backgroundColor: "#8E562E", height: 100 }}
+    <Page header="Add Transaction">
+      <section
+        style={{
+          flex: "1 1 100%",
+          overflowY: "auto",
+          display: "flex",
+          padding: 16,
+        }}
       >
-        <h1 style={{ margin: "auto" }}>Add Transaction</h1>
-      </header>
-      <section style={{ display: "flex", padding: 16 }}>
         <Form
           onFinish={submit}
           style={{ marginLeft: "auto", marginRight: "auto", width: 600 }}
@@ -290,7 +293,7 @@ const AddTransactionForm = () => {
           </Row>
         </Form>
       </section>
-    </div>
+    </Page>
   );
 };
 
