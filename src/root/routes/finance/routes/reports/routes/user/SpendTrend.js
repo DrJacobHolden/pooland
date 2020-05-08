@@ -11,13 +11,15 @@ const SpendTrend = ({ data: rawData, otherUserId }) => {
   const canvas = useRef();
   const chart = useRef();
 
-  const data = rawData.transactions.map(({ created_at, ...transaction }) => ({
-    ...transaction,
-    date: new Date(created_at),
-  }));
+  const data = rawData.transactions
+    .map(({ created_at, ...transaction }) => ({
+      ...transaction,
+      date: new Date(created_at),
+    }))
+    .reverse();
 
   const dayGranularity =
-    (data[data.length - 1].date - data[0].date) / (1000 * 3600 * 24) < 90;
+    (data[data.length - 1].date - data[0].date) / (1000 * 3600 * 24) < 30;
 
   const chartData = data.reduce(
     (acc, { amount, date, paid_id, splits }) => {
