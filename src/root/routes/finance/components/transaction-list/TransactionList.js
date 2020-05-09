@@ -69,6 +69,7 @@ function TransactionList({
                 ]
               : []
           }
+          className={classes.listItem}
         >
           <List.Item.Meta
             avatar={
@@ -76,21 +77,25 @@ function TransactionList({
                 value={getValue(amountAsFloat(amount), splits)}
                 precision={2}
                 prefix="$"
-                suffix={`/ ${amount}`}
+                // suffix={`/ ${amount}`}
               />
             }
             title={
-              showWho ? (
-                <>
-                  <UserName userId={paid_id} /> bought {name}
-                </>
-              ) : (
-                name
-              )
+              <span className={classes.listHeader}>
+                {showWho ? (
+                  <>
+                    <UserName userId={paid_id} /> bought {name}
+                  </>
+                ) : (
+                  name
+                )}
+              </span>
             }
             description={
               <div>
-                <span>{formatRelative(new Date(created), new Date())}</span>
+                <span className={classes.cornerDate}>
+                  {formatRelative(new Date(created), new Date())}
+                </span>
                 {tags?.map(({ name: tagName }) => (
                   <Tag key={tagName}>{tagName}</Tag>
                 ))}
