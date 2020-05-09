@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "graphql-hooks";
 
@@ -8,13 +8,20 @@ import { TransactionList } from "../../../../components/transaction-list/Transac
 import { UserName } from "../../../../components/UserName";
 import { SpendTrend } from "./SpendTrend";
 
+const PAGE_LENGTH = 10;
+
 const UserReport = () => {
   const { userId } = useParams();
+  const [page, setPage] = useState(1);
   const {
     loading: recentTransactionsLoading,
     data: recentTransactions,
   } = useQuery(GET_RECENT_TRANSACTIONS, {
-    variables: { userId },
+    variables: {
+      userId,
+      limit: PAGE_LENGTH,
+      offset: page === 1 ? undefined : PAGE_LENGTH * (page - 1),
+    },
   });
   const { data: reportData, loading: reportDataLoading } = useQuery(
     GET_REPORT_DATA,
@@ -41,9 +48,14 @@ const UserReport = () => {
       <section style={{ flex: "1 1 100%", overflow: "hidden" }}>
         <TransactionList
           data={recentTransactions}
+          pagination={{
+            onChange: page => setPage(page),
+            total:
+              recentTransactions?.transactions_aggregate.aggregate.totalCount,
+          }}
           loading={recentTransactionsLoading}
           showWho
-          title={"Recent Shared Expenses"}
+          title={"Shared Expenses"}
         />
       </section>
     </Page>

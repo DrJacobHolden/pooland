@@ -22,6 +22,7 @@ function TransactionList({
   data,
   loading,
   onDelete,
+  pagination,
   showWho = false,
   title = "Recent Transactions",
 }) {
@@ -46,6 +47,9 @@ function TransactionList({
       }
       itemLayout="horizontal"
       dataSource={data?.transactions}
+      loading={loading}
+      size="large"
+      pagination={pagination}
       renderItem={({
         amount,
         created_at: created,
@@ -95,8 +99,6 @@ function TransactionList({
           />
         </List.Item>
       )}
-      loading={loading}
-      size="large"
     />
   );
 }

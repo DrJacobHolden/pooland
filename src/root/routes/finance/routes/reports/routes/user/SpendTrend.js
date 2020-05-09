@@ -114,7 +114,7 @@ const SpendTrend = ({ data: rawData, otherUserId }) => {
       <h3>
         Currently {finalAmount > 0 ? "" : "you owe "}
         <UserName userId={otherUserId} /> {finalAmount > 0 ? "owes you " : ""}$
-        {finalAmount}
+        {Math.abs(finalAmount)}
       </h3>
       <div style={{ position: "relative", height: "300px", width: "100%" }}>
         <canvas ref={canvas} />

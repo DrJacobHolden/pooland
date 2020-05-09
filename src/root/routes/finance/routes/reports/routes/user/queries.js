@@ -1,21 +1,3 @@
-// const GET_REPORT_DATA = `
-// query getReportData($userId: uuid!, $startTime: timestamptz!, $endTime: timestamptz!) {
-//   transactions(where: {
-//     _and: [
-//       {_or: [{splits: {user_id: {_eq: $userId}}}, {paid_id: {_eq: $userId}}]}
-//      ,{created_at: {_lte: $endTime}},{created_at: {_gte: $startTime}}
-//     ]}, order_by: {created_at: desc}) {
-//     created_at
-//     amount
-//     paid_id
-//     splits {
-//       user_id
-//       percentage
-//     }
-//   }
-// }
-// `;
-
 const GET_REPORT_DATA = `
 query getReportData($userId: uuid!) {
   transactions(where: {
@@ -33,7 +15,17 @@ query getReportData($userId: uuid!) {
 `;
 
 const GET_RECENT_TRANSACTIONS = `
-  query getTransactions ($userId: uuid!) {
+  query getTransactions ($userId: uuid!, $limit: Int!, $offset: Int) {
+    transactions_aggregate(where: {
+      _or: [
+        {splits: {user_id: {_eq: $userId}}},
+        {paid_id: {_eq: $userId}}
+      ]
+    }) {
+      aggregate {
+        totalCount: count
+      }
+    },
     transactions(
       order_by: { created_at: desc },
       where: {
@@ -42,7 +34,8 @@ const GET_RECENT_TRANSACTIONS = `
           {paid_id: {_eq: $userId}}
         ]
       },
-      limit: 10
+      limit: $limit,
+      offset: $offset
     ) {
       name
       id
