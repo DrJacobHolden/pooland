@@ -45,6 +45,9 @@ const GET_RECENT_TRANSACTIONS = `
       splits {
         user_id
         percentage
+        user {
+          name
+        }
       }
     }
   }

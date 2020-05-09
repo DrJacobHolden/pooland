@@ -14,6 +14,9 @@ const GET_RECENT_TRANSACTIONS = `
       }
       splits {
         percentage
+        user {
+          name
+        }
       }
     }
   }

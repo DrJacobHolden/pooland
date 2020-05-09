@@ -29,12 +29,16 @@ const useStyles = createUseStyles({
 
   listItem: {
     position: "relative",
-    padding: "8px !important",
-    paddingTop: "16px !important",
+    padding: "0px !important",
+
+    "& .ant-list-item-meta-content": {
+      padding: "16px 8px 8px",
+    },
 
     "& .ant-list-item-meta-avatar": {
-      paddingTop: 8,
-      width: 80,
+      margin: "8px -30px 8px -30px",
+      width: 144,
+      height: 72,
     },
     "& .ant-list-item-meta, & .ant-list-item-meta-title, & .ant-list-item-meta-content": {
       whiteSpace: "nowrap",
@@ -45,7 +49,7 @@ const useStyles = createUseStyles({
   cornerDate: {
     position: "absolute",
     top: 0,
-    left: 8,
+    right: 8,
   },
 });
 

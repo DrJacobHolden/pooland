@@ -1,21 +1,10 @@
 import React from "react";
 import { formatRelative } from "date-fns";
-import { Button, List, Modal, Statistic, Tag } from "antd";
+import { Button, List, Modal, Tag } from "antd";
 
 import { UserName } from "../../components/UserName";
 import { useStyles } from "./TransactionList.styles";
-
-const amountAsFloat = input =>
-  parseFloat(input.replace("$", "").replace(",", ""));
-const getValue = (amount, splits) => {
-  if (splits?.length > 0) {
-    return splits.reduce(
-      (acc, { percentage }) => acc - amount * (percentage / 100),
-      amount
-    );
-  }
-  return amount;
-};
+import { SplitDonut } from "./SplitDonut";
 
 function TransactionList({
   addTransactionButton,
@@ -72,14 +61,7 @@ function TransactionList({
           className={classes.listItem}
         >
           <List.Item.Meta
-            avatar={
-              <Statistic
-                value={getValue(amountAsFloat(amount), splits)}
-                precision={2}
-                prefix="$"
-                // suffix={`/ ${amount}`}
-              />
-            }
+            avatar={<SplitDonut amount={amount} splits={splits} />}
             title={
               <span className={classes.listHeader}>
                 {showWho ? (
