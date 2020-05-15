@@ -14,6 +14,8 @@ query getReportData($userId: uuid!) {
 }
 `;
 
+// TODO: Fix this to not include ALL transactions and only the ones
+// that involve the relevant other party.
 const GET_RECENT_TRANSACTIONS = `
   query getTransactions ($userId: uuid!, $limit: Int!, $offset: Int) {
     transactions_aggregate(where: {

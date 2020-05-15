@@ -1,22 +1,79 @@
-const GET_RECENT_TRANSACTIONS = `
-  query getTransactions ($userId: uuid!) {
+const GET_TRANSACTIONS_FOR_RANGE = `
+  query getTransactions (
+    $userId: uuid!,
+    $startDate: timestamptz!,
+    $endDate: timestamptz!
+  ) {
     transactions(
       order_by: { created_at: desc },
-      where: { paid_id: { _eq: $userId } },
-      limit: 10
+      where: {
+        _and: [
+          {
+            _or: [
+              {splits: {user_id: {_eq: $userId}}},
+              {paid_id: {_eq: $userId}}
+            ]
+          },
+          {
+            created_at: {
+              _gte: $startDate
+            }
+          },
+          {
+            created_at: {
+              _lte: $endDate
+            }
+          }
+        ]
+      }
+    ) {
+      amount
+      paid_id
+      created_at
+      splits {
+        user_id
+        percentage
+      }
+    }
+  }
+`;
+
+const GET_RECENT_TRANSACTIONS = `
+  query getTransactions ($userId: uuid!, $limit: Int!, $offset: Int) {
+    transactions_aggregate(where: {
+      _or: [
+        {splits: {user_id: {_eq: $userId}}},
+        {paid_id: {_eq: $userId}}
+      ]
+    }) {
+      aggregate {
+        totalCount: count
+      }
+    },
+    transactions(
+      order_by: { created_at: desc },
+      where: {
+        _or: [
+          {splits: {user_id: {_eq: $userId}}},
+          {paid_id: {_eq: $userId}}
+        ]
+      },
+      limit: $limit,
+      offset: $offset
     ) {
       name
-      created_at
       id
       amount
-      tags {
-        name
-      }
+      paid_id
+      created_at
       splits {
         percentage
         user {
           name
         }
+      }
+      tags {
+        name
       }
     }
   }
@@ -30,4 +87,8 @@ const DELETE_TRANSACTION = `
   }
 `;
 
-export { GET_RECENT_TRANSACTIONS, DELETE_TRANSACTION };
+export {
+  GET_TRANSACTIONS_FOR_RANGE,
+  GET_RECENT_TRANSACTIONS,
+  DELETE_TRANSACTION,
+};
