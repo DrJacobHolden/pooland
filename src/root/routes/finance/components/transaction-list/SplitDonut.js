@@ -72,7 +72,7 @@ function SplitDonut({ amount, splits }) {
     }, 0);
 
   const displayedAmount = Math.floor(
-    selectedIndex ? getAmountForIndex(selectedIndex) : youAmount
+    selectedIndex !== undefined ? getAmountForIndex(selectedIndex) : youAmount
   );
 
   return (
