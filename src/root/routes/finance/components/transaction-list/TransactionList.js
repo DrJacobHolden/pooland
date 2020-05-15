@@ -7,13 +7,12 @@ import { useStyles } from "./TransactionList.styles";
 import { SplitDonut } from "./SplitDonut";
 
 function TransactionList({
-  addTransactionButton,
   data,
   loading,
   onDelete,
   pagination,
   showWho = false,
-  title = "Recent Transactions",
+  title,
 }) {
   const classes = useStyles();
 
@@ -29,10 +28,11 @@ function TransactionList({
     <List
       className={classes.root}
       header={
-        <div className={classes.header}>
-          <h3>{title}</h3>
-          {addTransactionButton}
-        </div>
+        title && (
+          <div className={classes.header}>
+            <h3>{title}</h3>
+          </div>
+        )
       }
       itemLayout="horizontal"
       dataSource={data?.transactions}
