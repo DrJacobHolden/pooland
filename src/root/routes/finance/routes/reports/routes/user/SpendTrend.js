@@ -19,7 +19,9 @@ const SpendTrend = ({ data: rawData, otherUserId }) => {
     .reverse();
 
   const dayGranularity =
-    (data[data.length - 1].date - data[0].date) / (1000 * 3600 * 24) < 30;
+    data.length === 0
+      ? false
+      : (data[data.length - 1].date - data[0].date) / (1000 * 3600 * 24) < 30;
 
   const chartData = data.reduce(
     (acc, { amount, date, paid_id, splits }) => {

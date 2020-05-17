@@ -40,7 +40,7 @@ const StatisticsSection = () => {
     }
   );
 
-  const personalSpend = getValue(spent.spent_totals[0].amount);
+  const personalSpend = getValue(spent.spent_totals[0]?.amount || "$0.00");
 
   return (
     <section className={classes.statisticSection}>

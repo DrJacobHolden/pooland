@@ -57,9 +57,10 @@ const TotalSpendTrend = () => {
       }))
       .reverse() || [];
 
-  const dayGranularity = loading
-    ? false
-    : (data[data.length - 1].date - data[0].date) / (1000 * 3600 * 24) < 30;
+  const dayGranularity =
+    loading || data.length === 0
+      ? false
+      : (data[data.length - 1].date - data[0].date) / (1000 * 3600 * 24) < 30;
 
   const chartData = data.reduce(
     (acc, { amount, date, paid_id, splits }) => {
