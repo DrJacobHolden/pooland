@@ -25,6 +25,9 @@ function LandingPage() {
             <Link className="ant-btn" to="/finance">
               Finance
             </Link>
+            <Link className="ant-btn" to="/flat">
+              Flat
+            </Link>
             <Button onClick={logout}>Sign Out</Button>
           </div>
         ) : (

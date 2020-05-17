@@ -21,7 +21,7 @@ import {
   ADD_SPLIT,
   GET_USERS,
 } from "./queries";
-import { Page } from "root/components/Page";
+import { FinancePage } from "root/routes/finance/components/FinancePage";
 
 const getAdded = path(["data", "insert_transactions", "returning", 0]);
 
@@ -77,7 +77,7 @@ const AddTransactionForm = () => {
   };
 
   return (
-    <Page header="Add Transaction">
+    <FinancePage header="Add Transaction">
       <section
         style={{
           flex: "1 1 100%",
@@ -293,7 +293,7 @@ const AddTransactionForm = () => {
           </Row>
         </Form>
       </section>
-    </Page>
+    </FinancePage>
   );
 };
 

@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "graphql-hooks";
 
 import { GET_RECENT_TRANSACTIONS, GET_REPORT_DATA } from "./queries";
-import { Page } from "root/components/Page";
 import { TransactionList } from "../../../../components/transaction-list/TransactionList";
 import { UserName } from "../../../../components/UserName";
 import { SpendTrend } from "./SpendTrend";
+import { FinancePage } from "root/routes/finance/components/FinancePage";
 
 const PAGE_LENGTH = 10;
 
@@ -33,7 +33,7 @@ const UserReport = () => {
   );
 
   return (
-    <Page
+    <FinancePage
       header={
         <span>
           History with <UserName userId={userId} />
@@ -58,7 +58,7 @@ const UserReport = () => {
           title={"Shared Expenses"}
         />
       </section>
-    </Page>
+    </FinancePage>
   );
 };
 
