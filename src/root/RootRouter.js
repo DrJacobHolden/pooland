@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, useLocation } from "react-router-dom";
 import { Spin } from "antd";
-import { useAuth } from "react-use-auth";
 
+import { AuthContext } from "root/wrappers/AuthWrapper";
 import { TerminalSwitch } from "root/components/routing/TerminalSwitch";
 
 import { LandingPage } from "./LandingPage";
@@ -14,9 +14,7 @@ function RootRouter() {
     handleAuthentication,
     isAuthenticated,
     isAuthenticating,
-    authResult,
-  } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
+  } = useContext(AuthContext);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -25,13 +23,7 @@ function RootRouter() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isAuthenticating) {
-      setIsLoading(false);
-    }
-  }, [isAuthenticating]);
-
-  if (isAuthenticating || isLoading || (isAuthenticated() && !authResult)) {
+  if (isAuthenticating) {
     return (
       <div style={{ display: "flex", width: "100%", height: "100%" }}>
         <Spin style={{ margin: "auto" }} />
@@ -39,7 +31,7 @@ function RootRouter() {
     );
   }
 
-  if (isAuthenticated()) {
+  if (isAuthenticated) {
     return (
       <TerminalSwitch>
         <Route path="/finance" component={FinanceRouter} />
