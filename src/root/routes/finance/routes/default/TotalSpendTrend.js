@@ -144,6 +144,9 @@ const TotalSpendTrend = () => {
                 {
                   type: "time",
                   display: true,
+                  time: {
+                    unit: "day",
+                  },
                   adapters: {
                     date: {
                       locale: enAU,

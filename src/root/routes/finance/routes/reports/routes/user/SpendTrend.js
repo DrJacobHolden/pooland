@@ -89,6 +89,9 @@ const SpendTrend = ({ data: rawData, otherUserId }) => {
                 {
                   type: "time",
                   display: true,
+                  time: {
+                    minUnit: "day",
+                  },
                   adapters: {
                     date: {
                       locale: enAU,
