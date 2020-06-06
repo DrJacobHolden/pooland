@@ -35,4 +35,12 @@ const GET_LIST_ITEM_DATA = `
   }
 `;
 
-export { GET_DONUT_DATA, GET_LIST_ITEM_DATA };
+const ADD_TAG = `
+  mutation addTag($name: String!, $transactionId: uuid!) {
+    insert_tags(objects: { name: $name, transaction_id: $transactionId }) {
+      affected_rows
+    }
+  }
+`;
+
+export { GET_DONUT_DATA, GET_LIST_ITEM_DATA, ADD_TAG };

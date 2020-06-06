@@ -8,6 +8,7 @@ import { useStyles } from "./TransactionList.styles";
 import { SplitDonut } from "./SplitDonut";
 import { useUser } from "root/helpers/useUser";
 import { GET_LIST_ITEM_DATA } from "./queries";
+import { AddTag } from "./AddTag";
 
 const DEFAULT_TRANSACTION = {
   created_at: undefined,
@@ -17,7 +18,7 @@ const DEFAULT_TRANSACTION = {
 };
 
 function TransactionListItem({ transactionId, onDelete, showWho = false }) {
-  const { data } = useQuery(GET_LIST_ITEM_DATA, {
+  const { data, refetch } = useQuery(GET_LIST_ITEM_DATA, {
     variables: { transactionId },
   });
   const userId = useUser();
@@ -73,6 +74,7 @@ function TransactionListItem({ transactionId, onDelete, showWho = false }) {
             {tags?.map(({ name: tagName }) => (
               <Tag key={tagName}>{tagName}</Tag>
             ))}
+            <AddTag onCreate={() => refetch()} transactionId={transactionId} />
           </div>
         }
       />
