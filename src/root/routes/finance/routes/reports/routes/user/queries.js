@@ -14,8 +14,6 @@ query getReportData($userId: uuid!) {
 }
 `;
 
-// TODO: Fix this to not include ALL transactions and only the ones
-// that involve the relevant other party.
 const GET_RECENT_TRANSACTIONS = `
   query getTransactions ($userId: uuid!, $limit: Int!, $offset: Int) {
     transactions_aggregate(where: {
@@ -39,18 +37,7 @@ const GET_RECENT_TRANSACTIONS = `
       limit: $limit,
       offset: $offset
     ) {
-      name
       id
-      amount
-      paid_id
-      created_at
-      splits {
-        user_id
-        percentage
-        user {
-          name
-        }
-      }
     }
   }
 `;

@@ -61,20 +61,7 @@ const GET_RECENT_TRANSACTIONS = `
       limit: $limit,
       offset: $offset
     ) {
-      name
       id
-      amount
-      paid_id
-      created_at
-      splits {
-        percentage
-        user {
-          name
-        }
-      }
-      tags {
-        name
-      }
     }
   }
 `;
@@ -87,8 +74,18 @@ const DELETE_TRANSACTION = `
   }
 `;
 
+const GET_SPENT_BY_TAG = `
+query getSpentByTag{
+  spent_by_tag(order_by: {total: desc}) {
+    name
+    total
+  }
+}
+`;
+
 export {
   GET_TRANSACTIONS_FOR_RANGE,
   GET_RECENT_TRANSACTIONS,
   DELETE_TRANSACTION,
+  GET_SPENT_BY_TAG,
 };

@@ -8,6 +8,7 @@ import { useUser } from "root/helpers/useUser";
 import { TotalSpendTrend } from "./TotalSpendTrend";
 import { Tabs } from "antd";
 import { FinancePage } from "../../components/FinancePage";
+import { SpendByTag } from "./SpendByTag";
 
 const PAGE_LENGTH = 10;
 
@@ -32,6 +33,7 @@ const Finance = () => {
         <Tabs.TabPane tab="Overview" key="statistics">
           <StatisticsSection />
           <TotalSpendTrend />
+          <SpendByTag />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Transactions" key="transactions">
           <TransactionList
