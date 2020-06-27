@@ -1,43 +1,3 @@
-const GET_TRANSACTIONS_FOR_RANGE = `
-  query getTransactions (
-    $userId: uuid!,
-    $startDate: timestamptz!,
-    $endDate: timestamptz!
-  ) {
-    transactions(
-      order_by: { created_at: desc },
-      where: {
-        _and: [
-          {
-            _or: [
-              {splits: {user_id: {_eq: $userId}}},
-              {paid_id: {_eq: $userId}}
-            ]
-          },
-          {
-            created_at: {
-              _gte: $startDate
-            }
-          },
-          {
-            created_at: {
-              _lte: $endDate
-            }
-          }
-        ]
-      }
-    ) {
-      amount
-      paid_id
-      created_at
-      splits {
-        user_id
-        percentage
-      }
-    }
-  }
-`;
-
 const GET_RECENT_TRANSACTIONS = `
   query getTransactions ($userId: uuid!, $limit: Int!, $offset: Int) {
     transactions_aggregate(where: {
@@ -83,9 +43,43 @@ query getSpentByTag{
 }
 `;
 
+const GET_TRANSACTIONS_FOR_RANGE = `
+  query getTransactions (
+    $startDate: timestamptz!,
+    $endDate: timestamptz!
+  ) {
+    transactions(
+      where: {
+        _and: [
+          {
+            created_at: {
+              _gte: $startDate
+            }
+          },
+          {
+            created_at: {
+              _lte: $endDate
+            }
+          }
+        ]
+      }
+    ) {
+      amount
+      paid_id
+      splits {
+        user_id
+        percentage
+      }
+      tags {
+        name
+      }
+    }
+  }
+`;
+
 export {
-  GET_TRANSACTIONS_FOR_RANGE,
   GET_RECENT_TRANSACTIONS,
   DELETE_TRANSACTION,
   GET_SPENT_BY_TAG,
+  GET_TRANSACTIONS_FOR_RANGE,
 };

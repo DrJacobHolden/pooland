@@ -1,22 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Row, Statistic } from "antd";
 import { Link } from "react-router-dom";
 import { toPairs } from "ramda";
-import { useQuery } from "graphql-hooks";
+import { useQuery, useManualQuery } from "graphql-hooks";
 
 import { useUser } from "root/helpers/useUser";
 
 import { UserName } from "../../../components/UserName";
-import { GET_SPENT, GET_OWED } from "./queries";
+import { GET_SPENT, GET_OWED, GET_TRANSACTIONS_FOR_RANGE } from "./queries";
 import { useStyles } from "./StatisticsSection.styles";
+import { getAmountAsFloat } from "root/routes/finance/helpers/getAmountAsFloat";
+import { partitionTransactionList } from "root/routes/finance/helpers/transaction";
 
-const getValue = input => parseFloat(input.replace("$", "").replace(",", ""));
-
-const StatisticsSection = () => {
+const StatisticsSection = ({ period }) => {
   const userId = useUser();
   const { data: spent } = useQuery(GET_SPENT);
   const { data: owedData } = useQuery(GET_OWED);
+  const [
+    getTransactions,
+    { data: periodTransactions = { transactions: [] } },
+  ] = useManualQuery(GET_TRANSACTIONS_FOR_RANGE, {
+    variables: {
+      ...period?.period,
+    },
+  });
   const classes = useStyles();
+
+  useEffect(() => {
+    if (period) {
+      getTransactions();
+    }
+  }, [period]);
+
+  const {
+    onBehalf: onBehalfForPeriod,
+    personal: personalForPeriod,
+    byUser: byUserForPeriod,
+  } = partitionTransactionList(userId, periodTransactions.transactions);
 
   if (!owedData || !spent) {
     return null;
@@ -26,11 +46,11 @@ const StatisticsSection = () => {
     (acc, { to, amount, owes }) => {
       if (to === userId) {
         // I am owed this money
-        acc.owed[owes] = (acc.owed[owes] || 0) + getValue(amount);
+        acc.owed[owes] = (acc.owed[owes] || 0) + getAmountAsFloat(amount);
       } else {
         // I owe this money
-        acc.owed[to] = (acc.owed[to] || 0) - getValue(amount);
-        acc.onBehalfSpend += getValue(amount);
+        acc.owed[to] = (acc.owed[to] || 0) - getAmountAsFloat(amount);
+        acc.onBehalfSpend += getAmountAsFloat(amount);
       }
       return acc;
     },
@@ -40,33 +60,39 @@ const StatisticsSection = () => {
     }
   );
 
-  const personalSpend = getValue(spent.spent_totals[0]?.amount || "$0.00");
+  const personalSpend = getAmountAsFloat(
+    spent.spent_totals[0]?.amount || "$0.00"
+  );
 
   return (
     <section className={classes.statisticSection}>
       <Row className={classes.statistic}>
         <Col xs={24} md={8}>
           <Statistic
-            title="Lifetime Total Spend"
+            title="Total Spend"
             precision={2}
             prefix="$"
-            value={personalSpend + onBehalfSpend}
+            value={
+              period
+                ? personalForPeriod + onBehalfForPeriod
+                : personalSpend + onBehalfSpend
+            }
           />
         </Col>
         <Col xs={12} md={8}>
           <Statistic
-            title="Lifetime Personal Spend"
+            title="Personal Spend"
             precision={2}
             prefix="$"
-            value={personalSpend}
+            value={period ? personalForPeriod : personalSpend}
           />
         </Col>
         <Col xs={12} md={8}>
           <Statistic
-            title="Lifetime On-Behalf Spend"
+            title="On-Behalf Spend"
             precision={2}
             prefix="$"
-            value={onBehalfSpend}
+            value={period ? onBehalfForPeriod : onBehalfSpend}
           />
         </Col>
       </Row>
@@ -87,9 +113,22 @@ const StatisticsSection = () => {
                     </span>
                   )
                 }
-                precision={2}
+                precision={0}
                 prefix="$"
                 value={Math.abs(value)}
+                suffix={
+                  period
+                    ? byUserForPeriod[owingId]
+                      ? value > 0
+                        ? `(${
+                            byUserForPeriod[owingId] > 0 ? "+" : "-"
+                          }${Math.abs(Math.round(byUserForPeriod[owingId]))})`
+                        : `(${
+                            byUserForPeriod[owingId] > 0 ? "-" : "+"
+                          }${Math.abs(Math.round(byUserForPeriod[owingId]))})`
+                      : "(+0)"
+                    : undefined
+                }
               />
             </Link>
           </Col>
