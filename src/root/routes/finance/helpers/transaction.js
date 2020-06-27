@@ -61,3 +61,23 @@ export const partitionTransactionList = (userId, transactionList) =>
       byUser: {},
     }
   );
+
+export const getTagSpendForTransactionList = (userId, transactionList) =>
+  transactionList.reduce((acc, { tags, ...transaction }) => {
+    const { personal, onBehalf } = partitionTransactionAmount(
+      userId,
+      transaction
+    );
+    const amount = Math.round(personal + onBehalf);
+    tags.forEach(({ name }) => {
+      if (!acc[name]) {
+        acc[name] = {
+          total: 0,
+          name: name,
+        };
+      }
+      acc[name].total += amount;
+    });
+
+    return acc;
+  }, {});

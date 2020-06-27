@@ -11,8 +11,9 @@ import { GET_SPENT, GET_OWED, GET_TRANSACTIONS_FOR_RANGE } from "./queries";
 import { useStyles } from "./StatisticsSection.styles";
 import { getAmountAsFloat } from "root/routes/finance/helpers/getAmountAsFloat";
 import { partitionTransactionList } from "root/routes/finance/helpers/transaction";
+import { PercentageDisplay } from "./PercentageDisplay";
 
-const StatisticsSection = ({ period }) => {
+const StatisticsSection = ({ period, comparisonEnabled }) => {
   const userId = useUser();
   const { data: spent } = useQuery(GET_SPENT);
   const { data: owedData } = useQuery(GET_OWED);
@@ -24,6 +25,14 @@ const StatisticsSection = ({ period }) => {
       ...period?.period,
     },
   });
+  const [
+    getComparisonTransactions,
+    { data: comparisonTransactions = { transactions: [] } },
+  ] = useManualQuery(GET_TRANSACTIONS_FOR_RANGE, {
+    variables: {
+      ...period?.comparison,
+    },
+  });
   const classes = useStyles();
 
   useEffect(() => {
@@ -32,11 +41,22 @@ const StatisticsSection = ({ period }) => {
     }
   }, [period]);
 
+  useEffect(() => {
+    if (period && comparisonEnabled) {
+      getComparisonTransactions();
+    }
+  }, [period, comparisonEnabled]);
+
   const {
     onBehalf: onBehalfForPeriod,
     personal: personalForPeriod,
     byUser: byUserForPeriod,
   } = partitionTransactionList(userId, periodTransactions.transactions);
+
+  const {
+    onBehalf: onBehalfForComparison,
+    personal: personalForComparison,
+  } = partitionTransactionList(userId, comparisonTransactions.transactions);
 
   if (!owedData || !spent) {
     return null;
@@ -77,6 +97,14 @@ const StatisticsSection = ({ period }) => {
                 ? personalForPeriod + onBehalfForPeriod
                 : personalSpend + onBehalfSpend
             }
+            suffix={
+              comparisonEnabled && (
+                <PercentageDisplay
+                  current={personalForPeriod + onBehalfForPeriod}
+                  previous={personalForComparison + onBehalfForComparison}
+                />
+              )
+            }
           />
         </Col>
         <Col xs={12} md={8}>
@@ -85,6 +113,14 @@ const StatisticsSection = ({ period }) => {
             precision={2}
             prefix="$"
             value={period ? personalForPeriod : personalSpend}
+            suffix={
+              comparisonEnabled && (
+                <PercentageDisplay
+                  current={personalForPeriod}
+                  previous={personalForComparison}
+                />
+              )
+            }
           />
         </Col>
         <Col xs={12} md={8}>
@@ -93,6 +129,14 @@ const StatisticsSection = ({ period }) => {
             precision={2}
             prefix="$"
             value={period ? onBehalfForPeriod : onBehalfSpend}
+            suffix={
+              comparisonEnabled && (
+                <PercentageDisplay
+                  current={onBehalfForPeriod}
+                  previous={onBehalfForComparison}
+                />
+              )
+            }
           />
         </Col>
       </Row>
@@ -121,12 +165,12 @@ const StatisticsSection = ({ period }) => {
                     ? byUserForPeriod[owingId]
                       ? value > 0
                         ? `(${
-                            byUserForPeriod[owingId] > 0 ? "+" : "-"
+                            byUserForPeriod[owingId] > 0 ? "+ $" : "- $"
                           }${Math.abs(Math.round(byUserForPeriod[owingId]))})`
                         : `(${
-                            byUserForPeriod[owingId] > 0 ? "-" : "+"
+                            byUserForPeriod[owingId] > 0 ? "- $" : "+ $"
                           }${Math.abs(Math.round(byUserForPeriod[owingId]))})`
-                      : "(+0)"
+                      : "(+ $0)"
                     : undefined
                 }
               />
