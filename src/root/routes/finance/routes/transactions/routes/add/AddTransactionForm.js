@@ -22,6 +22,7 @@ import {
   ADD_TAG,
   ADD_SPLIT,
   GET_USERS,
+  GET_DEFAULT_USERS,
 } from "./queries";
 import { FinancePage } from "root/routes/finance/components/FinancePage";
 
@@ -32,11 +33,14 @@ const { useForm } = Form;
 const AddTransactionForm = () => {
   const [form] = useForm();
   const userId = useUser();
-  const [userSearch, setUserSearch] = useState("%a%");
+  const [userSearch, setUserSearch] = useState("");
   const { loading: tagsLoading, data: tagsData } = useQuery(GET_TAGS);
   const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
     variables: { searchString: userSearch },
   });
+  const { loading: defaultUsersLoading, data: defaultUsersData } = useQuery(
+    GET_DEFAULT_USERS
+  );
   const [addTransaction] = useMutation(ADD_TRANSACTION);
   const [addTag] = useMutation(ADD_TAG);
   const [addSplit] = useMutation(ADD_SPLIT);
@@ -240,10 +244,13 @@ const AddTransactionForm = () => {
                     showSearch
                     optionFilterProp="children"
                     onSearch={string => setUserSearch(`%${string}%`)}
-                    loading={usersLoading}
+                    loading={defaultUsersLoading || usersLoading}
                     placeholder="Jack"
                   >
-                    {usersData?.users
+                    {(!userSearch || !userSearch.length
+                      ? defaultUsersData?.owed_totals?.map(({ owed }) => owed)
+                      : usersData?.users
+                    )
                       ?.filter(({ id }) => id !== userId)
                       .map(({ name, id }) => (
                         <Select.Option key={id} value={id}>

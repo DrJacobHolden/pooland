@@ -40,6 +40,17 @@ const GET_USERS = `
   }
 `;
 
+const GET_DEFAULT_USERS = `
+  query getOwed{
+    owed_totals(order_by: {amount: desc}, limit: 5) {
+      owed {
+        id
+        name
+      }
+    }
+  }
+`;
+
 const ADD_SPLIT = `
   mutation addSplit($percentage: float8! $transactionId: uuid!, $user_id: uuid) {
     insert_splits(
@@ -54,4 +65,11 @@ const ADD_SPLIT = `
   }
 `;
 
-export { ADD_TRANSACTION, GET_TAGS, ADD_TAG, ADD_SPLIT, GET_USERS };
+export {
+  ADD_TRANSACTION,
+  GET_TAGS,
+  ADD_TAG,
+  ADD_SPLIT,
+  GET_USERS,
+  GET_DEFAULT_USERS,
+};
