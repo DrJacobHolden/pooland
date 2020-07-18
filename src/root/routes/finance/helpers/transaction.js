@@ -1,3 +1,4 @@
+import { useQuery } from "graphql-hooks";
 import { getAmountAsFloat } from "./getAmountAsFloat";
 
 export const partitionTransactionAmount = (
@@ -81,3 +82,16 @@ export const getTagSpendForTransactionList = (userId, transactionList) =>
 
     return acc;
   }, {});
+
+export const useEarliestDate = () => {
+  const { data: rangeData } = useQuery(`query getTransactions {
+    transactions(
+      order_by: { created_at: asc },
+      limit: 1
+    ) {
+      created_at
+    }
+  }`);
+
+  return rangeData ? new Date(rangeData.transactions[0].created_at) : undefined;
+};

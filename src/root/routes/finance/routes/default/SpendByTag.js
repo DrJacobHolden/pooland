@@ -5,10 +5,7 @@ import { useManualQuery } from "graphql-hooks";
 
 import { GET_SPENT_BY_TAG, GET_TRANSACTIONS_FOR_RANGE } from "./queries";
 import { useUser } from "root/helpers/useUser";
-import {
-  partitionTransactionAmount,
-  getTagSpendForTransactionList,
-} from "../../helpers/transaction";
+import { getTagSpendForTransactionList } from "../../helpers/transaction";
 import { getAmountAsFloat } from "../../helpers/getAmountAsFloat";
 
 const COLOURS = [
