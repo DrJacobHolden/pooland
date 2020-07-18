@@ -43,7 +43,7 @@ const RelativePeriodSpendBar = ({ period }) => {
           style={{
             height: "100%",
             width: `${(current / max) * 100}%`,
-            backgroundColor: "green",
+            backgroundColor: getColourForData(periodData),
           }}
         />
         <span style={{ margin: "auto 0 auto 4px", fontWeight: "bold" }}>
@@ -116,6 +116,14 @@ const RelativePeriodSpendBar = ({ period }) => {
       )}
     </div>
   );
+};
+
+const getColourForData = ({ min, max, avg, current }) => {
+  /* eslint-disable */
+  if (current < min) return "blue";
+  if (current < avg) return "green";
+  if (current < max) return "orange";
+  return "red";
 };
 
 export { RelativePeriodSpendBar };
