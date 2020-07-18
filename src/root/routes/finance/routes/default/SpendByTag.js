@@ -18,20 +18,14 @@ const COLOURS = [
   [201, 203, 207],
 ];
 
-const SpendByTag = ({ period, comparisonEnabled }) => {
+const SpendByTag = ({ period }) => {
   const userId = useUser();
   const [rawData, setRawData] = useState([]);
-  const [comparisonData, setComparisonData] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [getLifetimeData] = useManualQuery(GET_SPENT_BY_TAG);
   const [getPeriodData] = useManualQuery(GET_TRANSACTIONS_FOR_RANGE, {
     variables: {
       ...period?.period,
-    },
-  });
-  const [getComparisonData] = useManualQuery(GET_TRANSACTIONS_FOR_RANGE, {
-    variables: {
-      ...period?.comparison,
     },
   });
   const canvas = useRef();
@@ -53,27 +47,12 @@ const SpendByTag = ({ period, comparisonEnabled }) => {
     })();
   }, [period]);
 
-  useEffect(() => {
-    setComparisonData([]);
-    (async () => {
-      if (comparisonEnabled && period) {
-        const { transactions } = (await getComparisonData()).data;
-        setComparisonData(getTagSpendForTransactionList(userId, transactions));
-      }
-    })();
-  }, [comparisonEnabled, period]);
-
   const chartData = rawData
     .filter(({ name }) => selectedTags.indexOf(name) > -1)
     .reduce(
       (acc, { name, total }, index) => {
         acc.labels.push(name);
         acc.datasets[0].data.push(getAmountAsFloat(total));
-        if (comparisonEnabled) {
-          acc.datasets[1].data.push(
-            getAmountAsFloat(comparisonData[name]?.total || 0)
-          );
-        }
         acc.datasets[0].backgroundColor.push(
           `rgba(${COLOURS[index % COLOURS.length].join(",")}, 0.2)`
         );
@@ -92,7 +71,6 @@ const SpendByTag = ({ period, comparisonEnabled }) => {
             borderColor: [],
             borderWidth: 1,
           },
-          ...(comparisonEnabled ? [{ data: [] }] : []),
         ],
       }
     );

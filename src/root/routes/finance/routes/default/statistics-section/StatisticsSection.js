@@ -14,9 +14,8 @@ import {
   partitionTransactionList,
   useEarliestDate,
 } from "root/routes/finance/helpers/transaction";
-import { PercentageDisplay } from "./PercentageDisplay";
 
-const StatisticsSection = ({ period, comparisonEnabled }) => {
+const StatisticsSection = ({ period }) => {
   const userId = useUser();
   const earliestDate = useEarliestDate();
   const { data: spent } = useQuery(GET_SPENT);
@@ -29,14 +28,6 @@ const StatisticsSection = ({ period, comparisonEnabled }) => {
       ...period?.period,
     },
   });
-  const [
-    getComparisonTransactions,
-    { data: comparisonTransactions = { transactions: [] } },
-  ] = useManualQuery(GET_TRANSACTIONS_FOR_RANGE, {
-    variables: {
-      ...period?.comparison,
-    },
-  });
   const classes = useStyles();
 
   useEffect(() => {
@@ -45,23 +36,12 @@ const StatisticsSection = ({ period, comparisonEnabled }) => {
     }
   }, [period]);
 
-  useEffect(() => {
-    if (period && comparisonEnabled) {
-      getComparisonTransactions();
-    }
-  }, [period, comparisonEnabled]);
-
   const {
     onBehalf: onBehalfForPeriod,
     personal: personalForPeriod,
     byUser: byUserForPeriod,
   } = partitionTransactionList(userId, periodTransactions.transactions);
   const totalForPeriod = personalForPeriod + onBehalfForPeriod;
-
-  const {
-    onBehalf: onBehalfForComparison,
-    personal: personalForComparison,
-  } = partitionTransactionList(userId, comparisonTransactions.transactions);
 
   if (!owedData || !spent) {
     return null;
@@ -99,14 +79,6 @@ const StatisticsSection = ({ period, comparisonEnabled }) => {
             precision={2}
             prefix="$"
             value={period ? totalForPeriod : totalSpend}
-            suffix={
-              comparisonEnabled && (
-                <PercentageDisplay
-                  current={totalForPeriod}
-                  previous={personalForComparison + onBehalfForComparison}
-                />
-              )
-            }
           />
         </Col>
 
@@ -126,14 +98,6 @@ const StatisticsSection = ({ period, comparisonEnabled }) => {
             precision={2}
             prefix="$"
             value={period ? personalForPeriod : personalSpend}
-            suffix={
-              comparisonEnabled && (
-                <PercentageDisplay
-                  current={personalForPeriod}
-                  previous={personalForComparison}
-                />
-              )
-            }
           />
         </Col>
         <Col xs={12} md={6}>
@@ -142,14 +106,6 @@ const StatisticsSection = ({ period, comparisonEnabled }) => {
             precision={2}
             prefix="$"
             value={period ? onBehalfForPeriod : onBehalfSpend}
-            suffix={
-              comparisonEnabled && (
-                <PercentageDisplay
-                  current={onBehalfForPeriod}
-                  previous={onBehalfForComparison}
-                />
-              )
-            }
           />
         </Col>
       </Row>
