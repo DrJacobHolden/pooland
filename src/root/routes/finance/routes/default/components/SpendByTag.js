@@ -93,6 +93,15 @@ const SpendByTag = ({ period }) => {
             legend: {
               display: false,
             },
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
           },
         });
       } else {
@@ -113,6 +122,12 @@ const SpendByTag = ({ period }) => {
 
   return (
     <div>
+      <h2 style={{ width: "100%", textAlign: "center" }}>
+        Spend per tag{period ? ` this ${period.name}` : ""}
+      </h2>
+      <div style={{ position: "relative", height: "300px", width: "100%" }}>
+        <canvas ref={canvas} />
+      </div>
       {rawData.map(({ name }) => (
         <Tag.CheckableTag
           key={name}
@@ -122,9 +137,6 @@ const SpendByTag = ({ period }) => {
           {name}
         </Tag.CheckableTag>
       ))}
-      <div style={{ position: "relative", height: "300px", width: "100%" }}>
-        <canvas ref={canvas} />
-      </div>
     </div>
   );
 };

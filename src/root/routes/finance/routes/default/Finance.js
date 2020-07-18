@@ -7,6 +7,7 @@ import { SpendByTag } from "./components/SpendByTag";
 import { PERIOD_OPTIONS } from "./constants";
 import { RelativePeriodSpendBar } from "./components/RelativePeriodSpendBar";
 import { PeriodText } from "./components/PeriodText";
+import { PeriodSpendBarGraph } from "./components/PeriodSpendBarGraph";
 
 const Finance = () => {
   const [period, setPeriod] = useState("This Fortnight");
@@ -42,6 +43,9 @@ const Finance = () => {
           <RelativePeriodSpendBar period={PERIOD_OPTIONS[period]} />
         )}
         <SpendByTag period={PERIOD_OPTIONS[period]} />
+        {period !== "Lifetime" && (
+          <PeriodSpendBarGraph period={PERIOD_OPTIONS[period]} />
+        )}
       </div>
     </FinancePage>
   );
