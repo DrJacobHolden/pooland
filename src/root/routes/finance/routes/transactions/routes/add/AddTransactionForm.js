@@ -8,10 +8,12 @@ import {
   Select,
   Slider,
   InputNumber,
+  DatePicker,
 } from "antd";
+import moment from "moment";
 import { path, range } from "ramda";
 import { useMutation, useQuery } from "graphql-hooks";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUser } from "root/helpers/useUser";
 
 import {
@@ -25,7 +27,10 @@ import { FinancePage } from "root/routes/finance/components/FinancePage";
 
 const getAdded = path(["data", "insert_transactions", "returning", 0]);
 
+const { useForm } = Form;
+
 const AddTransactionForm = () => {
+  const [form] = useForm();
   const userId = useUser();
   const [userSearch, setUserSearch] = useState("%a%");
   const { loading: tagsLoading, data: tagsData } = useQuery(GET_TAGS);
@@ -38,15 +43,20 @@ const AddTransactionForm = () => {
   const [loading, setLoading] = useState(false);
   const [splitCount, setSplitCount] = useState(0);
 
-  const history = useHistory();
-
-  const submit = async ({ amount, name, splits = [], tags = [] }) => {
+  const submit = async ({
+    amount,
+    name,
+    created_at,
+    splits = [],
+    tags = [],
+  }) => {
     setLoading(true);
     const result = await addTransaction({
       variables: {
         amount: `$${amount}`,
         name,
         paid_id: userId,
+        created_at,
       },
     });
 
@@ -72,8 +82,8 @@ const AddTransactionForm = () => {
         })
       ),
     ]);
+    form.resetFields();
     setLoading(false);
-    history.push("/finance");
   };
 
   return (
@@ -87,7 +97,9 @@ const AddTransactionForm = () => {
         }}
       >
         <Form
+          form={form}
           onFinish={submit}
+          initialValues={{ created_at: moment() }}
           style={{ marginLeft: "auto", marginRight: "auto", width: 600 }}
         >
           <Row gutter={16}>
@@ -115,6 +127,18 @@ const AddTransactionForm = () => {
                 rules={[{ required: true, message: "Please input a name!" }]}
               >
                 <Input placeholder="Dog food" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col xs={24}>
+              <Form.Item
+                label="Date"
+                name="created_at"
+                rules={[{ required: true, message: "Please input a date!" }]}
+              >
+                <DatePicker />
               </Form.Item>
             </Col>
           </Row>

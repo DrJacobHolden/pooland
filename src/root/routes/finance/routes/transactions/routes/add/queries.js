@@ -1,7 +1,12 @@
 const ADD_TRANSACTION = `
-  mutation addTransaction($amount: money!, $name: String!, $paid_id: uuid!) {
+  mutation addTransaction($amount: money!, $name: String!, $paid_id: uuid!, $created_at: timestamptz!) {
     insert_transactions(
-      objects: { amount: $amount, name: $name, paid_id: $paid_id }
+      objects: {
+        amount: $amount,
+        name: $name,
+        paid_id: $paid_id,
+        created_at: $created_at
+      }
     ) {
       returning {
         id

@@ -2,7 +2,10 @@ import React, { useEffect, useRef } from "react";
 import Chart from "chart.js";
 import "chartjs-adapter-date-fns";
 import { enAU } from "date-fns/locale";
+import { last } from "ramda";
+
 import { UserName } from "root/routes/finance/components/UserName";
+import { roundTo2Dec } from "root/routes/finance/helpers/roundTo2Dec";
 
 const amountAsFloat = input =>
   parseFloat(input.replace("$", "").replace(",", ""));
@@ -21,7 +24,7 @@ const SpendTrend = ({ data: rawData, otherUserId }) => {
   const dayGranularity =
     data.length === 0
       ? false
-      : (data[data.length - 1].date - data[0].date) / (1000 * 3600 * 24) < 30;
+      : (last(data).date - data[0].date) / (1000 * 3600 * 24) < 30;
 
   const chartData = data.reduce(
     (acc, { amount, date, paid_id, splits }) => {
@@ -39,7 +42,7 @@ const SpendTrend = ({ data: rawData, otherUserId }) => {
             x: dayGranularity
               ? new Date(date.getFullYear(), date.getMonth(), date.getDate())
               : new Date(date.getFullYear(), date.getMonth()),
-            y: dateData.length ? dateData[dateData.length - 1].y : 0,
+            y: dateData.length ? last(dateData).y : 0,
           };
           dateData.push(datapoint);
         }
@@ -110,9 +113,7 @@ const SpendTrend = ({ data: rawData, otherUserId }) => {
   }, [chartData, canvas]);
 
   const dataSetData = chartData.datasets[0].data;
-  const finalAmount =
-    Math.round((dataSetData[dataSetData.length - 1].y + Number.EPSILON) * 100) /
-    100;
+  const finalAmount = roundTo2Dec(last(dataSetData).y);
 
   return (
     <>

@@ -1,31 +1,22 @@
-const GET_RECENT_TRANSACTIONS = `
-  query getTransactions ($userId: uuid!, $limit: Int!, $offset: Int) {
-    transactions_aggregate(where: {
-      _or: [
-        {splits: {user_id: {_eq: $userId}}},
-        {paid_id: {_eq: $userId}}
-      ]
-    }) {
-      aggregate {
-        totalCount: count
-      }
-    },
-    transactions(
-      order_by: { created_at: desc },
-      where: {
-        _or: [
-          {splits: {user_id: {_eq: $userId}}},
-          {paid_id: {_eq: $userId}}
-        ]
-      },
-      limit: $limit,
-      offset: $offset
-    ) {
-      id
+const GET_SPENT = `
+  query getSpent{
+    spent_totals {
+      amount
     }
   }
 `;
 
+const GET_OWED = `
+  query getOwed{
+    owed_totals {
+      owes
+      amount
+      to
+    }
+  }
+`;
+
+// TODO:
 const DELETE_TRANSACTION = `
   mutation delete_transaction($id: uuid!) {
     delete_transactions(where: { id: { _eq: $id } }) {
@@ -35,12 +26,30 @@ const DELETE_TRANSACTION = `
 `;
 
 const GET_SPENT_BY_TAG = `
-query getSpentByTag{
-  spent_by_tag(order_by: {total: desc}) {
-    name
-    total
+  query getSpentByTag{
+    spent_by_tag(order_by: {total: desc}) {
+      name
+      total
+    }
   }
-}
+`;
+
+const GET_SPENT_BY_WEEK = `
+  query getSpentByWeek {
+    spent_by_week {
+      total
+      weekly
+    }
+  }
+`;
+
+const GET_SPENT_BY_MONTH = `
+  query getSpentByMonth {
+    spent_by_month {
+      total
+      monthly
+    }
+  }
 `;
 
 const GET_TRANSACTIONS_FOR_RANGE = `
@@ -66,6 +75,7 @@ const GET_TRANSACTIONS_FOR_RANGE = `
     ) {
       amount
       paid_id
+      created_at
       splits {
         user_id
         percentage
@@ -78,8 +88,11 @@ const GET_TRANSACTIONS_FOR_RANGE = `
 `;
 
 export {
-  GET_RECENT_TRANSACTIONS,
+  GET_SPENT,
+  GET_OWED,
   DELETE_TRANSACTION,
   GET_SPENT_BY_TAG,
+  GET_SPENT_BY_WEEK,
+  GET_SPENT_BY_MONTH,
   GET_TRANSACTIONS_FOR_RANGE,
 };

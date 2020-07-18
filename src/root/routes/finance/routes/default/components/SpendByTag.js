@@ -3,10 +3,10 @@ import Chart from "chart.js";
 import { Spin, Tag } from "antd";
 import { useManualQuery } from "graphql-hooks";
 
-import { GET_SPENT_BY_TAG, GET_TRANSACTIONS_FOR_RANGE } from "./queries";
+import { GET_SPENT_BY_TAG, GET_TRANSACTIONS_FOR_RANGE } from "../queries";
 import { useUser } from "root/helpers/useUser";
-import { getTagSpendForTransactionList } from "../../helpers/transaction";
-import { getAmountAsFloat } from "../../helpers/getAmountAsFloat";
+import { getTagSpendForTransactionList } from "../../../helpers/transaction";
+import { getAmountAsFloat } from "../../../helpers/getAmountAsFloat";
 
 const COLOURS = [
   [255, 99, 132],
@@ -112,7 +112,7 @@ const SpendByTag = ({ period }) => {
     );
 
   return (
-    <>
+    <div>
       {rawData.map(({ name }) => (
         <Tag.CheckableTag
           key={name}
@@ -125,7 +125,7 @@ const SpendByTag = ({ period }) => {
       <div style={{ position: "relative", height: "300px", width: "100%" }}>
         <canvas ref={canvas} />
       </div>
-    </>
+    </div>
   );
 };
 

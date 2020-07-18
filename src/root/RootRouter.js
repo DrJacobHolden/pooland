@@ -7,7 +7,6 @@ import { TerminalSwitch } from "root/components/routing/TerminalSwitch";
 
 import { LandingPage } from "./LandingPage";
 import { FinanceRouter } from "./routes/finance/FinanceRouter";
-import { Flat } from "./routes/flat/Flat";
 
 function RootRouter() {
   const {
@@ -35,7 +34,6 @@ function RootRouter() {
     return (
       <TerminalSwitch>
         <Route path="/finance" component={FinanceRouter} />
-        <Route path="/flat" component={Flat} />
         <Route exact path="/" component={LandingPage} />
       </TerminalSwitch>
     );

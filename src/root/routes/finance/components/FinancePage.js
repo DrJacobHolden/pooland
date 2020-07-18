@@ -1,6 +1,10 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { PlusCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import {
+  PlusCircleOutlined,
+  CloseCircleOutlined,
+  MenuOutlined,
+} from "@ant-design/icons";
 
 import { Page } from "root/components/Page";
 import { useStyles } from "./FinancePage.styles";
@@ -16,6 +20,15 @@ const FinancePage = ({ children, header }) => {
         pathname !== "/finance" && (
           <Link className={classes.goBack} key="/finance" to="/finance">
             <CloseCircleOutlined />
+          </Link>
+        ),
+        pathname === "/finance" && (
+          <Link
+            className={classes.goBack}
+            key="/list"
+            to="/finance/transactions/list"
+          >
+            <MenuOutlined />
           </Link>
         ),
         pathname !== "/finance/transactions/add" && (

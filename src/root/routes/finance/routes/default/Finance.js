@@ -1,50 +1,44 @@
 import React, { useState } from "react";
-import { useMutation, useQuery } from "graphql-hooks";
+import { Select, Form, Row, Col } from "antd";
 
-import { DELETE_TRANSACTION, GET_RECENT_TRANSACTIONS } from "./queries";
-import { TransactionList } from "../../components/transaction-list/TransactionList";
-import { useUser } from "root/helpers/useUser";
-import { Tabs } from "antd";
 import { FinancePage } from "../../components/FinancePage";
-import { StatisticsTab } from "./StatisticsTab";
-
-const PAGE_LENGTH = 10;
+import { LifetimeStatistics } from "./components/LifetimeStatistics";
+import { SpendByTag } from "./components/SpendByTag";
+import { PERIOD_OPTIONS } from "./constants";
+import { RelativePeriodSpendBar } from "./components/RelativePeriodSpendBar";
 
 const Finance = () => {
-  const userId = useUser();
-  const [page, setPage] = useState(1);
-  const { loading, data, refetch } = useQuery(GET_RECENT_TRANSACTIONS, {
-    variables: {
-      userId,
-      limit: PAGE_LENGTH,
-      offset: page === 1 ? undefined : PAGE_LENGTH * (page - 1),
-    },
-  });
-  const [deleteTransaction] = useMutation(DELETE_TRANSACTION);
+  const [period, setPeriod] = useState("This Fortnight");
 
   return (
     <FinancePage header="Finance Dashboard">
-      <Tabs
-        defaultActiveKey="statistics"
-        style={{ flex: "1 1 100%", overflowY: "auto" }}
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
       >
-        <Tabs.TabPane tab="Overview" key="statistics">
-          <StatisticsTab />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Transactions" key="transactions">
-          <TransactionList
-            data={data}
-            loading={loading}
-            onDelete={id =>
-              deleteTransaction({ variables: { id } }).then(() => refetch())
-            }
-            pagination={{
-              onChange: page => setPage(page),
-              total: data?.transactions_aggregate.aggregate.totalCount,
-            }}
-          />
-        </Tabs.TabPane>
-      </Tabs>
+        <LifetimeStatistics />
+        <Row>
+          <Col xs={24} sm={16} md={8}>
+            <Form.Item label="Period">
+              <Select value={period} onChange={setPeriod}>
+                {Object.keys(PERIOD_OPTIONS).map(option => (
+                  <Select.Option value={option} key={option}>
+                    {option}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        {period !== "Lifetime" && (
+          <RelativePeriodSpendBar period={PERIOD_OPTIONS[period]} />
+        )}
+        <SpendByTag period={PERIOD_OPTIONS[period]} />
+      </div>
     </FinancePage>
   );
 };

@@ -1,4 +1,3 @@
-import { useQuery } from "graphql-hooks";
 import { getAmountAsFloat } from "./getAmountAsFloat";
 
 export const partitionTransactionAmount = (
@@ -10,10 +9,10 @@ export const partitionTransactionAmount = (
   let onBehalf = 0;
   let byUser = {};
 
-  if (splits.length === 0) {
-    personal += amountAsFloat; // partitionTransactionAmount
-  } else {
-    if (paid_id === userId) {
+  if (paid_id === userId) {
+    if (splits.length === 0) {
+      personal += amountAsFloat; // partitionTransactionAmount
+    } else {
       personal += splits.reduce((yourTotal, { user_id, percentage }) => {
         const theyOwe = amountAsFloat * (percentage / 100);
         if (!byUser[user_id]) {
@@ -22,16 +21,16 @@ export const partitionTransactionAmount = (
         byUser[user_id] += theyOwe;
         return yourTotal - theyOwe;
       }, amountAsFloat);
-    } else {
-      const youOwe =
-        amountAsFloat *
-        (splits.find(({ user_id }) => user_id === userId).percentage / 100);
-      onBehalf += youOwe;
-      if (!byUser[paid_id]) {
-        byUser[paid_id] = 0;
-      }
-      byUser[paid_id] -= youOwe;
     }
+  } else {
+    const youOwe =
+      amountAsFloat *
+      (splits.find(({ user_id }) => user_id === userId).percentage / 100);
+    onBehalf += youOwe;
+    if (!byUser[paid_id]) {
+      byUser[paid_id] = 0;
+    }
+    byUser[paid_id] -= youOwe;
   }
 
   return { personal, onBehalf, byUser };
@@ -82,16 +81,3 @@ export const getTagSpendForTransactionList = (userId, transactionList) =>
 
     return acc;
   }, {});
-
-export const useEarliestDate = () => {
-  const { data: rangeData } = useQuery(`query getTransactions {
-    transactions(
-      order_by: { created_at: asc },
-      limit: 1
-    ) {
-      created_at
-    }
-  }`);
-
-  return rangeData ? new Date(rangeData.transactions[0].created_at) : undefined;
-};
