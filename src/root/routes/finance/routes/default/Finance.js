@@ -6,6 +6,7 @@ import { LifetimeStatistics } from "./components/LifetimeStatistics";
 import { SpendByTag } from "./components/SpendByTag";
 import { PERIOD_OPTIONS } from "./constants";
 import { RelativePeriodSpendBar } from "./components/RelativePeriodSpendBar";
+import { PeriodText } from "./components/PeriodText";
 
 const Finance = () => {
   const [period, setPeriod] = useState("This Fortnight");
@@ -23,7 +24,7 @@ const Finance = () => {
         <LifetimeStatistics />
         <Row>
           <Col xs={24} sm={16} md={8}>
-            <Form.Item label="Period">
+            <Form.Item label="Period" style={{ margin: 0 }}>
               <Select value={period} onChange={setPeriod}>
                 {Object.keys(PERIOD_OPTIONS).map(option => (
                   <Select.Option value={option} key={option}>
@@ -33,6 +34,9 @@ const Finance = () => {
               </Select>
             </Form.Item>
           </Col>
+        </Row>
+        <Row style={{ padding: "0px 16px 16px", fontSize: 18 }}>
+          <PeriodText period={PERIOD_OPTIONS[period]} />
         </Row>
         {period !== "Lifetime" && (
           <RelativePeriodSpendBar period={PERIOD_OPTIONS[period]} />

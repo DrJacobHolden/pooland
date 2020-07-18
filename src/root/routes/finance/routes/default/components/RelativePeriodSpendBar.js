@@ -3,7 +3,7 @@ import { useQuery } from "graphql-hooks";
 
 const RelativePeriodSpendBar = ({ period }) => {
   const ref = useRef();
-  const { data } = useQuery(period.query);
+  const { data } = useQuery(period.barQuery);
   const [periodData, setPeriodData] = useState();
 
   useEffect(() => {

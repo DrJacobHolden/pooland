@@ -43,9 +43,36 @@ const GET_SPENT_BY_WEEK = `
   }
 `;
 
+const GET_MOST_RECENT_WEEK = `
+  query getSpentByWeek {
+    spent_by_week(limit: 1, order_by: {weekly: desc}) {
+      total
+      weekly
+    }
+  }
+`;
+
+const GET_MOST_RECENT_FORTNIGHT = `
+  query getSpentByWeek {
+    spent_by_week(limit: 2, order_by: {weekly: desc}) {
+      total
+      weekly
+    }
+  }
+`;
+
 const GET_SPENT_BY_MONTH = `
   query getSpentByMonth {
     spent_by_month {
+      total
+      monthly
+    }
+  }
+`;
+
+const GET_MOST_RECENT_MONTH = `
+  query getSpentByMonth {
+    spent_by_month(limit: 1, order_by: {monthly: desc}) {
       total
       monthly
     }
@@ -94,5 +121,8 @@ export {
   GET_SPENT_BY_TAG,
   GET_SPENT_BY_WEEK,
   GET_SPENT_BY_MONTH,
+  GET_MOST_RECENT_WEEK,
+  GET_MOST_RECENT_FORTNIGHT,
+  GET_MOST_RECENT_MONTH,
   GET_TRANSACTIONS_FOR_RANGE,
 };
