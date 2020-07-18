@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  addMonths,
-  addWeeks,
-  startOfWeek,
-  lastDayOfWeek,
-  startOfMonth,
-  lastDayOfMonth,
-} from "date-fns";
+import { addMonths, addWeeks, startOfWeek, startOfMonth } from "date-fns";
 import { Select, Form, Row, Checkbox, Col } from "antd";
 import { StatisticsSection } from "./statistics-section/StatisticsSection";
 import { SpendByTag } from "./SpendByTag";
@@ -22,33 +15,33 @@ const PERIOD_OPTIONS = {
   "This Week": {
     period: {
       startDate: startOfWeek(now),
-      endDate: lastDayOfWeek(now),
+      endDate: startOfWeek(addWeeks(now, 1)),
     },
     comparison: {
       startDate: startOfWeek(addWeeks(now, -1)),
-      endDate: lastDayOfWeek(addWeeks(now, -1)),
+      endDate: startOfWeek(now),
     },
     averageFunction: getWeeksInRange,
   },
   "This Fortnight": {
     period: {
       startDate: startOfWeek(addWeeks(now, -1)),
-      endDate: lastDayOfWeek(now),
+      endDate: startOfWeek(addWeeks(now, 1)),
     },
     comparison: {
-      startDate: startOfWeek(addWeeks(now, -2)),
-      endDate: lastDayOfWeek(addWeeks(now, -1)),
+      startDate: startOfWeek(addWeeks(now, -3)),
+      endDate: startOfWeek(addWeeks(now, -1)),
     },
     averageFunction: getFortnightsInRange,
   },
   "This Month": {
     period: {
       startDate: startOfMonth(now),
-      endDate: lastDayOfMonth(now),
+      endDate: startOfMonth(addMonths(now, 1)),
     },
     comparison: {
       startDate: startOfMonth(addMonths(now, -1)),
-      endDate: lastDayOfMonth(addMonths(now, -1)),
+      endDate: startOfMonth(now),
     },
     averageFunction: getMonthsInRange,
   },
