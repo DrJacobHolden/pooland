@@ -21,6 +21,16 @@ const RelativePeriodSpendBar = ({ period }) => {
   }
 
   const { min, max, avg, current } = periodData;
+  const currentBarPerc = (current / max) * 100;
+  const minBarPerc = (min / max) * 100;
+  const avgBarPerc = (avg / max) * 100;
+
+  const offset =
+    minBarPerc > 80
+      ? currentBarPerc < minBarPerc
+        ? currentBarPerc - 10
+        : minBarPerc - 10
+      : 0;
 
   return (
     <div
@@ -42,7 +52,7 @@ const RelativePeriodSpendBar = ({ period }) => {
         <div
           style={{
             height: "100%",
-            width: `${(current / max) * 100}%`,
+            width: `${Math.max(10, currentBarPerc - offset)}%`,
             backgroundColor: getColourForData(periodData),
           }}
         />
@@ -55,7 +65,7 @@ const RelativePeriodSpendBar = ({ period }) => {
           style={{
             textAlign: "center",
             position: "absolute",
-            left: `${(min / max) * 100}%`,
+            left: `${Math.max(10, minBarPerc - offset)}%`,
             top: 44,
             transform: "translateX(-50%)",
           }}
@@ -76,7 +86,7 @@ const RelativePeriodSpendBar = ({ period }) => {
         style={{
           textAlign: "center",
           position: "absolute",
-          left: `${(avg / max) * 100}%`,
+          left: `${avgBarPerc - offset}%`,
           top: 0,
           transform: "translateX(-50%)",
         }}
@@ -99,7 +109,6 @@ const RelativePeriodSpendBar = ({ period }) => {
             textAlign: "center",
             right: 0,
             top: 44,
-            transform: "translateX(-50%)",
           }}
         >
           <div
