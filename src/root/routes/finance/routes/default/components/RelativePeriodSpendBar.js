@@ -57,7 +57,7 @@ const RelativePeriodSpendBar = ({ period }) => {
           }}
         />
         <span style={{ margin: "auto 0 auto 4px", fontWeight: "bold" }}>
-          ${current}
+          ${Math.round(current)}
         </span>
       </div>
       {min > 0 && (
@@ -79,7 +79,7 @@ const RelativePeriodSpendBar = ({ period }) => {
             }}
           />
           <div>Minimum</div>
-          <div>${min}</div>
+          <div>${Math.round(min)}</div>
         </div>
       )}
       <div
@@ -92,7 +92,7 @@ const RelativePeriodSpendBar = ({ period }) => {
         }}
       >
         <div>Average</div>
-        <div>${avg}</div>
+        <div>${Math.round(avg)}</div>
         <div
           style={{
             width: 2,
@@ -120,7 +120,7 @@ const RelativePeriodSpendBar = ({ period }) => {
             }}
           />
           <div>Highest</div>
-          <div>${max}</div>
+          <div>${Math.round(max)}</div>
         </div>
       )}
     </div>

@@ -2,7 +2,6 @@ import { head, init, mean, last, reverse, tail } from "ramda";
 import { addWeeks, isThisWeek, isThisMonth } from "date-fns";
 
 import { getAmountAsFloat } from "../../helpers/getAmountAsFloat";
-import { roundTo2Dec } from "../../helpers/roundTo2Dec";
 
 const DEFAULT = {
   min: 0,
@@ -22,7 +21,7 @@ const transformWeeklyToWeekData = ({ spent_by_week } = {}) => {
   return {
     min: Math.min(...totalsDropFirstAndLast),
     max: Math.max(...totalsDropFirstAndLast),
-    avg: roundTo2Dec(mean(totalsDropFirstAndLast)),
+    avg: mean(totalsDropFirstAndLast),
     current: isThisWeek(new Date(latest.weekly), { weekStartsOn: 1 })
       ? getAmountAsFloat(latest.total)
       : 0,
@@ -50,7 +49,7 @@ const transformWeeklyToFortnightData = ({ spent_by_week } = {}) => {
   return {
     min: Math.min(...totalsDropFirstAndLast),
     max: Math.max(...totalsDropFirstAndLast),
-    avg: roundTo2Dec(mean(totalsDropFirstAndLast)),
+    avg: mean(totalsDropFirstAndLast),
     current:
       isThisWeek(new Date(latest.weekly), { weekStartsOn: 1 }) ||
       isThisWeek(addWeeks(new Date(latest.weekly), 1), { weekStartsOn: 1 })
@@ -71,7 +70,7 @@ const transformMonthlyToMonthData = ({ spent_by_month } = {}) => {
   return {
     min: Math.min(...totalsDropFirstAndLast),
     max: Math.max(...totalsDropFirstAndLast),
-    avg: roundTo2Dec(mean(totalsDropFirstAndLast)),
+    avg: mean(totalsDropFirstAndLast),
     current: isThisMonth(new Date(latest.monthly))
       ? getAmountAsFloat(latest.total)
       : 0,
