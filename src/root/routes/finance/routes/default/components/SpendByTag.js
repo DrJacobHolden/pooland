@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Chart from "chart.js";
 import { Spin, Tag } from "antd";
 import { useManualQuery } from "graphql-hooks";
@@ -20,6 +21,7 @@ const COLOURS = [
 
 const SpendByTag = ({ period }) => {
   const userId = useUser();
+  const { push } = useHistory();
   const [rawData, setRawData] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [getLifetimeData] = useManualQuery(GET_SPENT_BY_TAG);
@@ -75,6 +77,12 @@ const SpendByTag = ({ period }) => {
       }
     );
 
+  const barClicked = (_, [chartElement]) => {
+    if (chartElement && chartElement._model?.label) {
+      push(`/finance/reports/tag/${chartElement._model.label}`);
+    }
+  };
+
   useEffect(() => {
     if (rawData) {
       setSelectedTags(rawData.slice(0, 10).map(({ name }) => name));
@@ -102,6 +110,7 @@ const SpendByTag = ({ period }) => {
                 },
               ],
             },
+            onClick: barClicked,
           },
         });
       } else {
