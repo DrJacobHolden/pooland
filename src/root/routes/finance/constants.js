@@ -12,18 +12,19 @@ import {
   GET_MOST_RECENT_WEEK,
   GET_MOST_RECENT_FORTNIGHT,
   GET_MOST_RECENT_MONTH,
-} from "./queries";
+} from "./routes/default/queries";
 import {
   transformWeeklyToWeekData,
   transformWeeklyToFortnightData,
   transformMonthlyToMonthData,
-} from "./helpers";
+} from "./routes/default/helpers";
 
 const now = new Date();
 
 const doctoredStartOfWeek = date =>
   addHours(startOfWeek(date, { weekStartsOn: 1 }), 12);
 
+const DEFAULT_PERIOD = "This Week";
 const PERIOD_OPTIONS = {
   "This Week": {
     period: {
@@ -58,4 +59,4 @@ const PERIOD_OPTIONS = {
   Lifetime: null,
 };
 
-export { PERIOD_OPTIONS };
+export { DEFAULT_PERIOD, PERIOD_OPTIONS };

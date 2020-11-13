@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Chart from "chart.js";
 import { useQuery } from "graphql-hooks";
 
 import { getAmountAsFloat } from "../../../helpers/getAmountAsFloat";
+import { FinanceContext } from "root/routes/finance/FinanceWrapper";
 
 const COLOURS = [
   [255, 99, 132],
@@ -14,7 +15,8 @@ const COLOURS = [
   [201, 203, 207],
 ];
 
-const PeriodSpendBarGraph = ({ period }) => {
+const PeriodSpendBarGraph = () => {
+  const { period } = useContext(FinanceContext);
   const { data: rawData } = useQuery(period.barQuery);
   const canvas = useRef();
   const chart = useRef();

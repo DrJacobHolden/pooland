@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useQuery } from "graphql-hooks";
+import { FinanceContext } from "root/routes/finance/FinanceWrapper";
 
-const RelativePeriodSpendBar = ({ period }) => {
+const RelativePeriodSpendBar = () => {
+  const { period } = useContext(FinanceContext);
   const ref = useRef();
   const { data } = useQuery(period.barQuery);
   const [periodData, setPeriodData] = useState();

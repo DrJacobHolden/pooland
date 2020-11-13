@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "graphql-hooks";
 import {
   formatDistance,
@@ -14,8 +14,10 @@ import {
 import { GET_SPENT, GET_OWED } from "../queries";
 import { getAmountAsFloat } from "root/routes/finance/helpers/getAmountAsFloat";
 import { useUser } from "root/helpers/useUser";
+import { FinanceContext } from "root/routes/finance/FinanceWrapper";
 
-const PeriodText = ({ period }) => {
+const PeriodText = () => {
+  const { period } = useContext(FinanceContext);
   return period ? <DefinedPeriodText period={period} /> : <LifetimeText />;
 };
 
