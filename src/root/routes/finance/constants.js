@@ -35,6 +35,7 @@ const PERIOD_OPTIONS = {
     textQuery: GET_MOST_RECENT_WEEK,
     transformation: transformWeeklyToWeekData,
     name: "week",
+    key: "This Week",
   },
   "This Fortnight": {
     period: {
@@ -45,6 +46,7 @@ const PERIOD_OPTIONS = {
     textQuery: GET_MOST_RECENT_FORTNIGHT,
     transformation: transformWeeklyToFortnightData,
     name: "fortnight",
+    key: "This Fornight",
   },
   "This Month": {
     period: {
@@ -55,6 +57,7 @@ const PERIOD_OPTIONS = {
     textQuery: GET_MOST_RECENT_MONTH,
     transformation: transformMonthlyToMonthData,
     name: "month",
+    key: "This Month",
   },
   Lifetime: null,
 };

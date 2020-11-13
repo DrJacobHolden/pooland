@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Select, Form } from "antd";
 
-import { DEFAULT_PERIOD, PERIOD_OPTIONS } from "../../../constants";
+import { PERIOD_OPTIONS } from "../../../constants";
+import { FinanceContext } from "root/routes/finance/FinanceWrapper";
 
 const PeriodSelect = ({ onPeriodChange }) => {
-  const [period, setPeriod] = useState(DEFAULT_PERIOD);
+  const { period: currentPeriod } = useContext(FinanceContext);
+  const [period, setPeriod] = useState(currentPeriod?.key || "Lifetime");
 
   useEffect(() => {
     onPeriodChange && onPeriodChange(PERIOD_OPTIONS[period]);

@@ -28,7 +28,7 @@ function TransactionList({
       dataSource={data?.transactions}
       loading={loading}
       size="large"
-      pagination={pagination}
+      pagination={{ ...pagination, showSizeChanger: false }}
       renderItem={({ id }) => (
         <TransactionListItem
           transactionId={id}

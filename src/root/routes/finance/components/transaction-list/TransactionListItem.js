@@ -1,5 +1,5 @@
 import React from "react";
-import { formatRelative } from "date-fns";
+import { format } from "date-fns";
 import { Button, List, Modal, Tag } from "antd";
 import { useQuery } from "graphql-hooks";
 
@@ -69,7 +69,7 @@ function TransactionListItem({ transactionId, onDelete, showWho = false }) {
         description={
           <div>
             <span className={classes.cornerDate}>
-              {created && formatRelative(new Date(created), new Date())}
+              {created && format(new Date(created), "dd/M/yy")}
             </span>
             {tags?.map(({ name: tagName }) => (
               <Tag key={tagName}>{tagName}</Tag>
