@@ -19,17 +19,13 @@ steps:
     versionSpec: '3.x'
     addToPath: true
     architecture: 'x64'
-- task: CmdLine@2
-  inputs:
-    script: 'pip install awscli'
 
 - script: |
+    'pip install awscli'
     npm install
-    npm build
+    npm run build
+    cd build
   displayName: 'npm install and build'
-- task: CmdLine@2
-  inputs:
-    script: 'cd build'
 - task: AWSCLI@1
   inputs:
     awsCredentials: 'Amazon'
