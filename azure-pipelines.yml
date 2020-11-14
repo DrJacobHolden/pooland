@@ -27,6 +27,9 @@ steps:
     npm install
     npm build
   displayName: 'npm install and build'
+- task: CmdLine@2
+  inputs:
+    script: 'cd build'
 - task: AWSCLI@1
   inputs:
     awsCredentials: 'Amazon'
