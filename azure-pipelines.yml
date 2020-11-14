@@ -44,4 +44,4 @@ steps:
     awsCredentials: 'Amazon'
     awsCommand: 'cloudfront'
     awsSubCommand: 'create-invalidation'
-    awsArguments: '--distribution-id E16WTFGOH8PVRG --paths *'
+    awsArguments: '--distribution-id E16WTFGOH8PVRG --paths /*'
