@@ -39,3 +39,9 @@ steps:
     awsCommand: 's3'
     awsSubCommand: 'sync'
     awsArguments: '--cache-control ''no-cache'' --acl public-read --delete ./build s3://damnit'
+- task: AWSCLI@1
+  inputs:
+    awsCredentials: 'Amazon'
+    awsCommand: 'cloudfront'
+    awsSubCommand: 'create-invalidation'
+    awsArguments: '--distribution-id E16WTFGOH8PVRG --paths *'
