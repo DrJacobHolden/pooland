@@ -24,7 +24,6 @@ steps:
     'pip install awscli'
     npm install
     npm run build
-    cd build
   displayName: 'npm install and build'
 - task: AWSCLI@1
   inputs:
@@ -32,11 +31,11 @@ steps:
     regionName: 'us-west-1'
     awsCommand: 's3'
     awsSubCommand: 'sync'
-    awsArguments: '--cache-control ''max-age=604800'' --acl public-read --exclude index.html . s3://damnit'
+    awsArguments: '--cache-control ''max-age=604800'' --acl public-read --exclude index.html ./build s3://damnit'
 - task: AWSCLI@1
   inputs:
     awsCredentials: 'Amazon'
     regionName: 'us-west-1'
     awsCommand: 's3'
     awsSubCommand: 'sync'
-    awsArguments: '--cache-control ''no-cache'' --acl public-read --delete . s3://damnit'
+    awsArguments: '--cache-control ''no-cache'' --acl public-read --delete ./build s3://damnit'
