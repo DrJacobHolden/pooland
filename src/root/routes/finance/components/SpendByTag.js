@@ -2,12 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Chart from "chart.js";
 import { Spin, Tag } from "antd";
-import { useManualQuery } from "graphql-hooks";
 
-import { GET_SPENT_BY_TAG, GET_TRANSACTIONS_FOR_RANGE } from "../queries";
-import { useUser } from "root/helpers/useUser";
-import { getTagSpendForTransactionList } from "../../../helpers/transaction";
-import { getAmountAsFloat } from "../../../helpers/getAmountAsFloat";
+import { getAmountAsFloat } from "../helpers/getAmountAsFloat";
 
 const COLOURS = [
   [255, 99, 132],
@@ -19,35 +15,11 @@ const COLOURS = [
   [201, 203, 207],
 ];
 
-const SpendByTag = ({ period }) => {
-  const userId = useUser();
+const SpendByTag = ({ rawData }) => {
   const { push } = useHistory();
-  const [rawData, setRawData] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
-  const [getLifetimeData] = useManualQuery(GET_SPENT_BY_TAG);
-  const [getPeriodData] = useManualQuery(GET_TRANSACTIONS_FOR_RANGE, {
-    variables: {
-      ...period?.period,
-    },
-  });
   const canvas = useRef();
   const chart = useRef();
-
-  useEffect(() => {
-    setRawData([]);
-    (async () => {
-      if (period) {
-        const { transactions } = (await getPeriodData()).data;
-        setRawData(
-          Object.values(
-            getTagSpendForTransactionList(userId, transactions)
-          ).sort((a, b) => b.total - a.total)
-        );
-      } else {
-        setRawData((await getLifetimeData()).data.spent_by_tag);
-      }
-    })();
-  }, [period]);
 
   const chartData = rawData
     .filter(({ name }) => selectedTags.indexOf(name) > -1)
@@ -131,9 +103,6 @@ const SpendByTag = ({ period }) => {
 
   return (
     <div>
-      <h2 style={{ width: "100%", textAlign: "center" }}>
-        Spend per tag{period ? ` this ${period.name}` : ""}
-      </h2>
       <div style={{ position: "relative", height: "300px", width: "100%" }}>
         <canvas ref={canvas} />
       </div>

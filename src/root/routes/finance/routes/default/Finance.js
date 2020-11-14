@@ -3,7 +3,7 @@ import { Row, Col } from "antd";
 
 import { FinancePage } from "../../components/FinancePage";
 import { LifetimeStatistics } from "./components/LifetimeStatistics";
-import { SpendByTag } from "./components/SpendByTag";
+import { PeriodTagSpendBarGraph } from "./components/PeriodTagSpendBarGraph";
 import { RelativePeriodSpendBar } from "./components/RelativePeriodSpendBar";
 import { PeriodText } from "./components/PeriodText";
 import { PeriodSpendBarGraph } from "./components/PeriodSpendBarGraph";
@@ -33,7 +33,7 @@ const Finance = () => {
           <PeriodText />
         </Row>
         {period && <RelativePeriodSpendBar />}
-        <SpendByTag />
+        <PeriodTagSpendBarGraph />
         {period && <PeriodSpendBarGraph />}
       </div>
     </FinancePage>

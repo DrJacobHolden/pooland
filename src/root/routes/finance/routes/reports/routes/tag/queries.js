@@ -24,4 +24,28 @@ const GET_RECENT_TRANSACTIONS = `
   }
 `;
 
-export { GET_RECENT_TRANSACTIONS };
+const GET_ALL_TRANSACTIONS_FOR_TAG = `
+  query getTransactions ($tagName: String!) {
+    transactions(where: {
+      tags: {
+        name: {
+          _eq: $tagName
+        }
+      }
+    },
+    order_by: {created_at: desc}) {
+      amount
+      created_at
+      paid_id
+      tags {
+        name
+      }
+      splits {
+        percentage
+        user_id
+      }
+    }
+  }
+`;
+
+export { GET_RECENT_TRANSACTIONS, GET_ALL_TRANSACTIONS_FOR_TAG };
