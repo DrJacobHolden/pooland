@@ -9,6 +9,7 @@ import {
 import { TransactionList } from "../../../../components/transaction-list/TransactionList";
 import { FinancePage } from "root/routes/finance/components/FinancePage";
 import { SpendByTag } from "root/routes/finance/components/SpendByTag";
+// TODO: Use a smarter query
 import { getTagSpendForTransactionList } from "root/routes/finance/helpers/transaction";
 import { useUser } from "root/helpers/useUser";
 

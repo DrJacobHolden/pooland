@@ -6,12 +6,12 @@ import { useQuery } from "graphql-hooks";
 
 import { useUser } from "root/helpers/useUser";
 
-import { UserName } from "../../../components/UserName";
-import { GET_OWED } from "../queries";
-import { useStyles } from "./LifetimeStatistics.styles";
+import { UserName } from "../../../../components/UserName";
+import { GET_OWED } from "../../queries";
+import { useStyles } from "./DebtDisplay.styles";
 import { getAmountAsFloat } from "root/routes/finance/helpers/getAmountAsFloat";
 
-const LifetimeStatistics = () => {
+const DebtDisplay = () => {
   const userId = useUser();
   const { data: owedData } = useQuery(GET_OWED);
   const classes = useStyles();
@@ -62,4 +62,4 @@ const LifetimeStatistics = () => {
   );
 };
 
-export { LifetimeStatistics };
+export { DebtDisplay };

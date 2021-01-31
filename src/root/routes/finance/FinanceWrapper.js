@@ -1,16 +1,73 @@
 import React, { createContext, useState } from "react";
-import { DEFAULT_PERIOD, PERIOD_OPTIONS } from "./constants";
+import { addWeeks, addMonths } from "date-fns";
+
+import { GROUP_BY_DEFAULTS } from "./routes/default/constants";
 
 const FinanceContext = createContext({});
 
 function FinanceWrapper({ children }) {
-  const [period, setPeriod] = useState(PERIOD_OPTIONS[DEFAULT_PERIOD]);
+  const [groupBy, _setGroupBy] = useState("Week");
+  const [dateRange, _setDateRange] = useState(GROUP_BY_DEFAULTS[groupBy]);
+
+  const setGroupBy = selected => {
+    _setGroupBy(selected);
+    _setDateRange(GROUP_BY_DEFAULTS[selected]);
+  };
+
+  const goBackPeriod = () => {
+    switch (groupBy) {
+      case "Week":
+        _setDateRange(([startDate, endDate]) => [
+          addWeeks(startDate, -1),
+          addWeeks(endDate, -1),
+        ]);
+        break;
+      case "Fortnight":
+        _setDateRange(([startDate, endDate]) => [
+          addWeeks(startDate, -2),
+          addWeeks(endDate, -2),
+        ]);
+        break;
+      case "Month":
+        _setDateRange(([startDate, endDate]) => [
+          addMonths(startDate, -1),
+          addMonths(endDate, -1),
+        ]);
+        break;
+    }
+  };
+
+  const goForwardPeriod = () => {
+    switch (groupBy) {
+      case "Week":
+        _setDateRange(([startDate, endDate]) => [
+          addWeeks(startDate, 1),
+          addWeeks(endDate, 1),
+        ]);
+        break;
+      case "Fortnight":
+        _setDateRange(([startDate, endDate]) => [
+          addWeeks(startDate, 2),
+          addWeeks(endDate, 2),
+        ]);
+        break;
+      case "Month":
+        _setDateRange(([startDate, endDate]) => [
+          addMonths(startDate, 1),
+          addMonths(endDate, 1),
+        ]);
+        break;
+    }
+  };
 
   return (
     <FinanceContext.Provider
       value={{
-        period,
-        setPeriod,
+        dateRange,
+        groupBy,
+        setGroupBy,
+        goBackPeriod,
+        goForwardPeriod,
       }}
     >
       {children}

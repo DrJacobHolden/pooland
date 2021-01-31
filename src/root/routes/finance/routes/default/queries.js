@@ -1,90 +1,9 @@
-const GET_SPENT = `
-  query getSpent{
-    spent_totals {
-      amount
-    }
-  }
-`;
-
-const GET_OWED = `
-  query getOwed{
-    owed_totals {
-      owes
-      amount
-      to
-    }
-  }
-`;
-
-// TODO:
-const DELETE_TRANSACTION = `
-  mutation delete_transaction($id: uuid!) {
-    delete_transactions(where: { id: { _eq: $id } }) {
-      affected_rows
-    }
-  }
-`;
-
-const GET_SPENT_BY_TAG = `
-  query getSpentByTag{
-    spent_by_tag(order_by: {total: desc}) {
-      name
-      total
-    }
-  }
-`;
-
-const GET_SPENT_BY_WEEK = `
-  query getSpentByWeek {
-    spent_by_week {
-      total
-      weekly
-    }
-  }
-`;
-
-const GET_MOST_RECENT_WEEK = `
-  query getSpentByWeek {
-    spent_by_week(limit: 1, order_by: {weekly: desc}) {
-      total
-      weekly
-    }
-  }
-`;
-
-const GET_MOST_RECENT_FORTNIGHT = `
-  query getSpentByWeek {
-    spent_by_week(limit: 2, order_by: {weekly: desc}) {
-      total
-      weekly
-    }
-  }
-`;
-
-const GET_SPENT_BY_MONTH = `
-  query getSpentByMonth {
-    spent_by_month {
-      total
-      monthly
-    }
-  }
-`;
-
-const GET_MOST_RECENT_MONTH = `
-  query getSpentByMonth {
-    spent_by_month(limit: 1, order_by: {monthly: desc}) {
-      total
-      monthly
-    }
-  }
-`;
-
-const GET_TRANSACTIONS_FOR_RANGE = `
-  query getTransactions (
+const GET_SPENT_FOR_PERIOD = `
+  query getSpendForPeriod (
     $startDate: timestamptz!,
     $endDate: timestamptz!
   ) {
-    transactions(
+    spent_by_transaction_aggregate(
       where: {
         _and: [
           {
@@ -100,29 +19,126 @@ const GET_TRANSACTIONS_FOR_RANGE = `
         ]
       }
     ) {
-      amount
-      paid_id
-      created_at
-      splits {
-        user_id
-        percentage
-      }
-      tags {
-        name
+      aggregate {
+        sum {
+          total_numeric
+        }
       }
     }
   }
 `;
 
+const GET_RELATIVE_SPEND_BAR_DATA_WEEK = `
+  query MyQuery(
+      $week: date!
+    ) {
+    spent_by_week_nz(
+      where: {
+        weekly: {
+          _eq: $week
+        }
+      }
+    ) {
+      total
+    }
+    spent_by_week_nz_aggregate {
+      aggregate {
+        max {
+          total
+        }
+        min {
+          total
+        }
+        avg {
+          total
+        }
+      }
+    }
+  }
+`;
+
+const GET_SPENT_BY_WEEK = `
+  query MyQuery {
+    spent_by_week_nz {
+      total
+      weekly
+    }
+  }
+`;
+
+const GET_SPENT_BY_MONTH = `
+  query MyQuery {
+    spent_by_month_nz {
+      total
+      monthly
+    }
+  }
+`;
+
+const GET_RELATIVE_SPEND_BAR_DATA_MONTH = `
+  query MyQuery(
+      $month: date!
+    ) {
+    spent_by_month_nz(
+      where: {
+        monthly: {
+          _eq: $month
+        }
+      }
+    ) {
+      total
+    }
+    spent_by_month_nz_aggregate {
+      aggregate {
+        max {
+          total
+        }
+        min {
+          total
+        }
+        avg {
+          total
+        }
+      }
+    }
+  }
+`;
+
+const GET_SPENT_BY_TAG_IN_DATE_RANGE = `
+  query MyQuery(
+    $startDate: timestamptz!,
+    $endDate: timestamptz!
+  ) {
+    get_spent_by_tag_in_date_range(
+      args: {
+        end_time: $endDate,
+        start_time: $startDate
+      },
+      order_by: {total: desc}
+    ) {
+      name
+      amount
+      total
+    }
+  }
+`;
+
+const GET_OWED = `
+  query getOwed{
+    owed_totals {
+      owes
+      amount
+      to
+    }
+  }
+`;
+
 export {
-  GET_SPENT,
-  GET_OWED,
-  DELETE_TRANSACTION,
-  GET_SPENT_BY_TAG,
+  GET_SPENT_FOR_PERIOD,
+  GET_RELATIVE_SPEND_BAR_DATA_WEEK,
   GET_SPENT_BY_WEEK,
   GET_SPENT_BY_MONTH,
-  GET_MOST_RECENT_WEEK,
-  GET_MOST_RECENT_FORTNIGHT,
-  GET_MOST_RECENT_MONTH,
-  GET_TRANSACTIONS_FOR_RANGE,
+  GET_RELATIVE_SPEND_BAR_DATA_MONTH,
+  GET_SPENT_BY_TAG_IN_DATE_RANGE,
+  GET_OWED,
 };

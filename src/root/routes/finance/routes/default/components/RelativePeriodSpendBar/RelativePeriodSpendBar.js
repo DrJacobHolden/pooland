@@ -1,28 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useQuery } from "graphql-hooks";
-import { FinanceContext } from "root/routes/finance/FinanceWrapper";
+import React from "react";
 
-const RelativePeriodSpendBar = () => {
-  const { period } = useContext(FinanceContext);
-  const ref = useRef();
-  const { data } = useQuery(period.barQuery);
-  const [periodData, setPeriodData] = useState();
-
-  useEffect(() => {
-    if (data) {
-      try {
-        setPeriodData(period.transformation(data));
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }, [data, period]);
-
-  if (!periodData) {
-    return null;
-  }
-
-  const { min, max, avg, current } = periodData;
+const RelativePeriodSpendBar = props => {
+  const { min, max, avg, current } = props;
   const currentBarPerc = (current / max) * 100;
   const minBarPerc = (min / max) * 100;
   const avgBarPerc = (avg / max) * 100;
@@ -43,7 +22,6 @@ const RelativePeriodSpendBar = () => {
       }}
     >
       <div
-        ref={ref}
         style={{
           width: "100%",
           height: 40,
@@ -55,7 +33,7 @@ const RelativePeriodSpendBar = () => {
           style={{
             height: "100%",
             width: `${Math.max(10, currentBarPerc - offset)}%`,
-            backgroundColor: getColourForData(periodData),
+            backgroundColor: getColourForData(props),
           }}
         />
         <span style={{ margin: "auto 0 auto 4px", fontWeight: "bold" }}>
