@@ -2,14 +2,13 @@ import React from "react";
 
 import { useStyles } from "./Header.styles";
 
-const Header = ({ children, headerStarters, headerExtras, style }) => {
+const Header = ({ title, rightButton, style }) => {
   const classes = useStyles();
 
   return (
     <header className={classes.root} style={style}>
-      {headerStarters}
-      <h1>{children}</h1>
-      {headerExtras}
+      <div className={classes.title}>{title}</div>
+      {rightButton && <div className={classes.rightButton}>{rightButton}</div>}
     </header>
   );
 };

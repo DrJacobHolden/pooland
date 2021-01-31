@@ -6,7 +6,6 @@ import {
   Input,
   Row,
   Select,
-  Slider,
   InputNumber,
   DatePicker,
 } from "antd";
@@ -91,7 +90,7 @@ const AddTransactionForm = () => {
   };
 
   return (
-    <FinancePage header="Add Transaction">
+    <FinancePage title={<h1>Add Transaction</h1>}>
       <section
         style={{
           flex: "1 1 100%",
@@ -258,28 +257,6 @@ const AddTransactionForm = () => {
                         </Select.Option>
                       ))}
                   </Select>
-                </Form.Item>
-              </Col>
-
-              <Col xs={24}>
-                <Form.Item
-                  label="Split (%)"
-                  name={["splits", index, "percentage"]}
-                  rules={[
-                    { required: true, message: "Please input a percentage!" },
-                  ]}
-                >
-                  <Slider
-                    marks={{
-                      0: "0%",
-                      25: "25%",
-                      50: "50%",
-                      75: "75%",
-                      100: "100%",
-                    }}
-                    min={0}
-                    max={100}
-                  />
                 </Form.Item>
               </Col>
             </Row>

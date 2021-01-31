@@ -34,10 +34,10 @@ const UserReport = () => {
 
   return (
     <FinancePage
-      header={
-        <span>
+      title={
+        <h1>
           History with <UserName userId={userId} />
-        </span>
+        </h1>
       }
     >
       {reportDataLoading ? (

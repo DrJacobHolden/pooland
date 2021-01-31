@@ -7,11 +7,29 @@ const DELETE_TRANSACTION = `
 `;
 
 const GET_RECENT_TRANSACTIONS = `
-  query getTransactions ($userId: uuid!, $limit: Int!, $offset: Int) {
+  query getTransactions (
+    $userId: uuid!,
+    $limit: Int!,
+    $offset: Int,
+    $startDate: timestamptz!,
+    $endDate: timestamptz!
+  ) {
     transactions_aggregate(where: {
       _or: [
         {splits: {user_id: {_eq: $userId}}},
         {paid_id: {_eq: $userId}}
+      ],
+      _and: [
+        {
+          created_at: {
+            _gte: $startDate
+          }
+        },
+        {
+          created_at: {
+            _lte: $endDate
+          }
+        }
       ]
     }) {
       aggregate {
@@ -24,7 +42,20 @@ const GET_RECENT_TRANSACTIONS = `
         _or: [
           {splits: {user_id: {_eq: $userId}}},
           {paid_id: {_eq: $userId}}
+        ],
+        _and: [
+          {
+            created_at: {
+              _gte: $startDate
+            }
+          },
+          {
+            created_at: {
+              _lte: $endDate
+            }
+          }
         ]
+
       },
       limit: $limit,
       offset: $offset

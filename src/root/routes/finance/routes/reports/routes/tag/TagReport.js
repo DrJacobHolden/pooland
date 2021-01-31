@@ -36,7 +36,7 @@ const TagReport = () => {
   });
 
   return (
-    <FinancePage header={tagName}>
+    <FinancePage title={<h1>{tagName}</h1>}>
       <h2 style={{ width: "100%", textAlign: "center" }}>
         Breakdown by Sub-Tag (Lifetime)
       </h2>

@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { addWeeks, addMonths } from "date-fns";
 
-import { GROUP_BY_DEFAULTS } from "./routes/default/constants";
+import { GROUP_BY_DEFAULTS } from "./constants";
 
 const FinanceContext = createContext({});
 
