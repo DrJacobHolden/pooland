@@ -1,5 +1,5 @@
 # PooLand
-
+# Hi tate
 ## Description
 PooLand is my personal playground, hosted at https://poo.land. Currently the primary functionality is based around logging financial transactions and sharing them between users. A mash up between Splitwise and any financial tracking app. The main benefit is being able to see all your expenses in one place, and share them with others at the same time (especially if you split most things 50/50 with your partner!)
 
