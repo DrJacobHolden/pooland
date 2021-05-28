@@ -86,6 +86,7 @@ const AddTransactionForm = () => {
       ),
     ]);
     form.resetFields();
+    form.setFieldsValue({ created_at });
     setLoading(false);
   };
 
