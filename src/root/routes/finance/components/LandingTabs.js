@@ -1,4 +1,3 @@
-import React from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { Tabs } from "antd";
 

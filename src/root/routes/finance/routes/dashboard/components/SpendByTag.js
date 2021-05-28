@@ -110,7 +110,7 @@ const SpendByTag = () => {
 
   const handleTagCheck = (name, checked) =>
     setSelectedTags(
-      checked ? [...selectedTags, name] : selectedTags.filter(t => t !== name)
+      checked ? [...selectedTags, name] : selectedTags.filter((t) => t !== name)
     );
 
   return (
@@ -122,7 +122,7 @@ const SpendByTag = () => {
         <Tag.CheckableTag
           key={name}
           checked={selectedTags.indexOf(name) > -1}
-          onChange={checked => handleTagCheck(name, checked)}
+          onChange={(checked) => handleTagCheck(name, checked)}
         >
           {name}
         </Tag.CheckableTag>

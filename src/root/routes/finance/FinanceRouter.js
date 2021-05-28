@@ -1,4 +1,3 @@
-import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
 import { TerminalSwitch } from "root/components/routing/TerminalSwitch";

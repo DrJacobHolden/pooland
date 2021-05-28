@@ -19,16 +19,14 @@ const TagReport = () => {
   const userId = useUser();
   const { tagName } = useParams();
   const [page, setPage] = useState(1);
-  const {
-    loading: recentTransactionsLoading,
-    data: recentTransactions,
-  } = useQuery(GET_RECENT_TRANSACTIONS, {
-    variables: {
-      tagName,
-      limit: PAGE_LENGTH,
-      offset: page === 1 ? undefined : PAGE_LENGTH * (page - 1),
-    },
-  });
+  const { loading: recentTransactionsLoading, data: recentTransactions } =
+    useQuery(GET_RECENT_TRANSACTIONS, {
+      variables: {
+        tagName,
+        limit: PAGE_LENGTH,
+        offset: page === 1 ? undefined : PAGE_LENGTH * (page - 1),
+      },
+    });
   const { data: allTransactions } = useQuery(GET_ALL_TRANSACTIONS_FOR_TAG, {
     variables: {
       tagName,
@@ -51,7 +49,7 @@ const TagReport = () => {
         <TransactionList
           data={recentTransactions}
           pagination={{
-            onChange: page => setPage(page),
+            onChange: (page) => setPage(page),
             total:
               recentTransactions?.transactions_aggregate.aggregate.totalCount,
           }}

@@ -1,6 +1,6 @@
 import { getWeek, format, addWeeks } from "date-fns";
 
-const convertWeeklyToFortnightly = input =>
+const convertWeeklyToFortnightly = (input) =>
   input.reduce((acc, { total, weekly }) => {
     const week = new Date(weekly);
     if (getWeek(week) % 2) {

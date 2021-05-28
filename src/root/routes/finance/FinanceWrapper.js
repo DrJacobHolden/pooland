@@ -9,7 +9,7 @@ function FinanceWrapper({ children }) {
   const [groupBy, _setGroupBy] = useState("Week");
   const [dateRange, _setDateRange] = useState(GROUP_BY_DEFAULTS[groupBy]);
 
-  const setGroupBy = selected => {
+  const setGroupBy = (selected) => {
     _setGroupBy(selected);
     _setDateRange(GROUP_BY_DEFAULTS[selected]);
   };

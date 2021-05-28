@@ -3,22 +3,22 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
   ],
   plugins: ["react", "prettier"],
   env: {
     es6: true,
     browser: true,
     node: true,
-    jest: true
+    jest: true,
   },
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: "module",
     jsx: true,
     ecmaFeatures: {
-      experimentalObjectRestSpread: true
-    }
+      experimentalObjectRestSpread: true,
+    },
   },
   rules: {
     curly: ["error"],
@@ -34,25 +34,26 @@ module.exports = {
     "prettier/prettier": [
       "error",
       {
-        trailingComma: "es5"
-      }
+        trailingComma: "es5",
+      },
     ],
     "react/jsx-boolean-value": 0,
     "react/jsx-filename-extension": 0,
     "react/jsx-props-no-spreading": 0,
     "react/prop-types": 0,
-    "react/require-default-props": 0
+    "react/require-default-props": 0,
+    "react/react-in-jsx-scope": 0,
   },
   settings: {
     "import/resolver": {
       node: {
         paths: ["src"],
-        extensions: [".js"]
-      }
+        extensions: [".js"],
+      },
     },
     react: {
       pragma: "React",
-      version: "detect"
-    }
-  }
+      version: "detect",
+    },
+  },
 };

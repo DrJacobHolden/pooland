@@ -1,4 +1,3 @@
-import React from "react";
 import { Col, Row, Statistic } from "antd";
 import { Link } from "react-router-dom";
 import { toPairs } from "ramda";

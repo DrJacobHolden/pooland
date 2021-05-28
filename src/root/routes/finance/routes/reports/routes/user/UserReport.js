@@ -13,16 +13,14 @@ const PAGE_LENGTH = 10;
 const UserReport = () => {
   const { userId } = useParams();
   const [page, setPage] = useState(1);
-  const {
-    loading: recentTransactionsLoading,
-    data: recentTransactions,
-  } = useQuery(GET_RECENT_TRANSACTIONS, {
-    variables: {
-      userId,
-      limit: PAGE_LENGTH,
-      offset: page === 1 ? undefined : PAGE_LENGTH * (page - 1),
-    },
-  });
+  const { loading: recentTransactionsLoading, data: recentTransactions } =
+    useQuery(GET_RECENT_TRANSACTIONS, {
+      variables: {
+        userId,
+        limit: PAGE_LENGTH,
+        offset: page === 1 ? undefined : PAGE_LENGTH * (page - 1),
+      },
+    });
   const { data: reportData, loading: reportDataLoading } = useQuery(
     GET_REPORT_DATA,
     {
@@ -49,7 +47,7 @@ const UserReport = () => {
         <TransactionList
           data={recentTransactions}
           pagination={{
-            onChange: page => setPage(page),
+            onChange: (page) => setPage(page),
             total:
               recentTransactions?.transactions_aggregate.aggregate.totalCount,
           }}

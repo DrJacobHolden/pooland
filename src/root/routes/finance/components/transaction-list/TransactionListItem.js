@@ -1,4 +1,3 @@
-import React from "react";
 import { format } from "date-fns";
 import { Button, List, Modal, Tag } from "antd";
 import { useQuery } from "graphql-hooks";
@@ -24,7 +23,7 @@ function TransactionListItem({ transactionId, onDelete, showWho = false }) {
   const userId = useUser();
   const classes = useStyles();
 
-  const showDelete = id => () => {
+  const showDelete = (id) => () => {
     Modal.confirm({
       title: "Delete Transaction",
       content: "Are you sure you would like to delete this transaction?",
@@ -32,8 +31,12 @@ function TransactionListItem({ transactionId, onDelete, showWho = false }) {
     });
   };
 
-  const { created_at: created, name, paid_id, tags } =
-    data?.transactions[0] || DEFAULT_TRANSACTION;
+  const {
+    created_at: created,
+    name,
+    paid_id,
+    tags,
+  } = data?.transactions[0] || DEFAULT_TRANSACTION;
   const you = paid_id === userId;
 
   return (

@@ -1,6 +1,4 @@
-import React from "react";
-
-const RelativePeriodSpendBar = props => {
+const RelativePeriodSpendBar = (props) => {
   const { min, max, avg, current } = props;
   const currentBarPerc = (current / max) * 100;
   const minBarPerc = (min / max) * 100;

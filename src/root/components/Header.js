@@ -1,5 +1,3 @@
-import React from "react";
-
 import { useStyles } from "./Header.styles";
 
 const Header = ({ title, rightButton, style }) => {

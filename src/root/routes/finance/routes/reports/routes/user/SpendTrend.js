@@ -7,7 +7,7 @@ import { last } from "ramda";
 import { UserName } from "root/routes/finance/components/UserName";
 import { roundTo2Dec } from "root/routes/finance/helpers/roundTo2Dec";
 
-const amountAsFloat = input =>
+const amountAsFloat = (input) =>
   parseFloat(input.replace("$", "").replace(",", ""));
 
 const SpendTrend = ({ data: rawData, otherUserId }) => {

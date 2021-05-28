@@ -40,11 +40,12 @@ const useStyles = createUseStyles({
       width: 144,
       height: 72,
     },
-    "& .ant-list-item-meta, & .ant-list-item-meta-title, & .ant-list-item-meta-content": {
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
+    "& .ant-list-item-meta, & .ant-list-item-meta-title, & .ant-list-item-meta-content":
+      {
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      },
   },
   cornerDate: {
     position: "absolute",

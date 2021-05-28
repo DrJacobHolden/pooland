@@ -46,7 +46,7 @@ export const partitionTransactionList = (userId, transactionList) =>
 
       acc.personal += personal;
       acc.onBehalf += onBehalf;
-      Object.keys(byUser).forEach(user => {
+      Object.keys(byUser).forEach((user) => {
         if (!acc.byUser[user]) {
           acc.byUser[user] = byUser[user];
         } else {

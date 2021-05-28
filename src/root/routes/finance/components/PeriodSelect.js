@@ -7,13 +7,8 @@ import { GROUP_BY_OPTIONS } from "../constants";
 import { FinanceContext } from "../FinanceWrapper";
 
 const PeriodSelect = () => {
-  const {
-    dateRange,
-    groupBy,
-    setGroupBy,
-    goBackPeriod,
-    goForwardPeriod,
-  } = useContext(FinanceContext);
+  const { dateRange, groupBy, setGroupBy, goBackPeriod, goForwardPeriod } =
+    useContext(FinanceContext);
 
   return (
     <div
@@ -29,7 +24,7 @@ const PeriodSelect = () => {
       </div>
       <div style={{ flexGrow: 1, textAlign: "center" }}>
         <Select value={groupBy} onChange={setGroupBy}>
-          {GROUP_BY_OPTIONS.map(groupOption => (
+          {GROUP_BY_OPTIONS.map((groupOption) => (
             <Select.Option value={groupOption} key={groupOption}>
               {groupOption}
             </Select.Option>

@@ -6,7 +6,7 @@ import { useQuery } from "graphql-hooks";
 import { GET_DONUT_DATA } from "./queries";
 import { useUser } from "root/helpers/useUser";
 
-const amountAsFloat = input =>
+const amountAsFloat = (input) =>
   parseFloat(input.replace("$", "").replace(",", ""));
 
 function SplitDonut({ transactionId }) {
@@ -94,7 +94,7 @@ function SplitDonut({ transactionId }) {
     }
   };
 
-  const getAmountForIndex = index => {
+  const getAmountForIndex = (index) => {
     const { percentage } = totalSplits[index];
     return Math.round(amountAsFloat(amount) * (percentage / 100));
   };

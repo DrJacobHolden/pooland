@@ -37,9 +37,8 @@ const AddTransactionForm = () => {
   const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
     variables: { searchString: userSearch },
   });
-  const { loading: defaultUsersLoading, data: defaultUsersData } = useQuery(
-    GET_DEFAULT_USERS
-  );
+  const { loading: defaultUsersLoading, data: defaultUsersData } =
+    useQuery(GET_DEFAULT_USERS);
   const [addTransaction] = useMutation(ADD_TRANSACTION);
   const [addTag] = useMutation(ADD_TAG);
   const [addSplit] = useMutation(ADD_SPLIT);
@@ -66,7 +65,7 @@ const AddTransactionForm = () => {
     const { id: transactionId } = getAdded(result);
     await Promise.all([
       // Add tags
-      ...tags.map(tagName =>
+      ...tags.map((tagName) =>
         addTag({
           variables: {
             name: tagName,
@@ -116,10 +115,10 @@ const AddTransactionForm = () => {
                 <InputNumber
                   min={0}
                   max={20000000}
-                  formatter={value =>
+                  formatter={(value) =>
                     `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   }
-                  parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                  parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
                 />
               </Form.Item>
             </Col>
@@ -159,7 +158,7 @@ const AddTransactionForm = () => {
             </Col>
           </Row>
 
-          {range(0, splitCount).map(index => (
+          {range(0, splitCount).map((index) => (
             <Row
               key={index}
               style={{
@@ -173,7 +172,7 @@ const AddTransactionForm = () => {
             >
               <Col span={18}>
                 <Form.Item shouldUpdate>
-                  {form => {
+                  {(form) => {
                     const amount = form.getFieldValue("amount") || 0;
                     const percentage =
                       form.getFieldValue(["splits", index, "percentage"]) || 0;
@@ -194,7 +193,7 @@ const AddTransactionForm = () => {
 
               <Col xs={24} md={8}>
                 <Form.Item shouldUpdate>
-                  {form => {
+                  {(form) => {
                     const splitRemainder = range(0, splitCount).reduce(
                       (acc, splitIndex) => {
                         if (splitIndex === index) {
@@ -225,8 +224,8 @@ const AddTransactionForm = () => {
                         <InputNumber
                           min={0}
                           max={splitRemainder}
-                          formatter={value => `${value}%`}
-                          parser={value => value.replace("%", "")}
+                          formatter={(value) => `${value}%`}
+                          parser={(value) => value.replace("%", "")}
                         />
                       </Form.Item>
                     );
@@ -243,7 +242,7 @@ const AddTransactionForm = () => {
                   <Select
                     showSearch
                     optionFilterProp="children"
-                    onSearch={string => setUserSearch(`%${string}%`)}
+                    onSearch={(string) => setUserSearch(`%${string}%`)}
                     loading={defaultUsersLoading || usersLoading}
                     placeholder="Jack"
                   >

@@ -25,7 +25,7 @@ const constructQueryParams = compose(
   toPairs
 );
 
-const getQueryParam = param =>
+const getQueryParam = (param) =>
   path([param], parseQueryParams(window.location.search));
 
 export { constructQueryParams, getQueryParam, parseQueryParams };

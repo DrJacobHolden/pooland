@@ -9,11 +9,8 @@ import { LandingPage } from "./LandingPage";
 import { FinanceRouter } from "./routes/finance/FinanceRouter";
 
 function RootRouter() {
-  const {
-    handleAuthentication,
-    isAuthenticated,
-    isAuthenticating,
-  } = useContext(AuthContext);
+  const { handleAuthentication, isAuthenticated, isAuthenticating } =
+    useContext(AuthContext);
   const { pathname } = useLocation();
 
   useEffect(() => {

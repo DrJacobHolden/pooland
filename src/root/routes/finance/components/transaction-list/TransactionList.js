@@ -1,4 +1,3 @@
-import React from "react";
 import { List } from "antd";
 
 import { TransactionListItem } from "./TransactionListItem";

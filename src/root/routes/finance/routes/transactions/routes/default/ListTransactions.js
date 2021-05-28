@@ -44,11 +44,11 @@ const ListTransactions = () => {
         <TransactionList
           data={data}
           loading={loading}
-          onDelete={id =>
+          onDelete={(id) =>
             deleteTransaction({ variables: { id } }).then(() => refetch())
           }
           pagination={{
-            onChange: p => setPage(p),
+            onChange: (p) => setPage(p),
             total: data?.transactions_aggregate.aggregate.totalCount,
             pageSize: PAGE_LENGTH,
           }}

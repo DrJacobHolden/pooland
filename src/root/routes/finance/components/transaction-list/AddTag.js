@@ -18,7 +18,7 @@ const AddTag = ({ onCreate, transactionId }) => {
     }
   }, [inputVisible, input]);
 
-  const handleInputChange = e => setInputValue(e.target.value);
+  const handleInputChange = (e) => setInputValue(e.target.value);
 
   const handleInputConfirm = async () => {
     setLoading(true);

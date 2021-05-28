@@ -1,4 +1,4 @@
-export const getAmountAsFloat = input => {
+export const getAmountAsFloat = (input) => {
   try {
     return parseFloat(input.replace("$", "").replace(",", ""));
   } catch (e) {
