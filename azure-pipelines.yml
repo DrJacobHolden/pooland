@@ -4,44 +4,44 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- master
+  - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.x'
-    addToPath: true
-    architecture: 'x64'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "10.x"
+    displayName: "Install Node.js"
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "3.x"
+      addToPath: true
+      architecture: "x64"
 
-- script: |
-    'pip install awscli'
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-- task: AWSCLI@1
-  inputs:
-    awsCredentials: 'Amazon'
-    regionName: 'us-west-1'
-    awsCommand: 's3'
-    awsSubCommand: 'sync'
-    awsArguments: '--cache-control ''max-age=604800'' --acl public-read --exclude index.html ./build s3://damnit'
-- task: AWSCLI@1
-  inputs:
-    awsCredentials: 'Amazon'
-    regionName: 'us-west-1'
-    awsCommand: 's3'
-    awsSubCommand: 'sync'
-    awsArguments: '--cache-control ''no-cache'' --acl public-read --delete ./build s3://damnit'
-- task: AWSCLI@1
-  inputs:
-    awsCredentials: 'Amazon'
-    awsCommand: 'cloudfront'
-    awsSubCommand: 'create-invalidation'
-    awsArguments: '--distribution-id E16WTFGOH8PVRG --paths /*'
+  - script: |
+      'pip install awscli'
+      npm install
+      npm run build
+    displayName: "npm install and build"
+  - task: AWSCLI@1
+    inputs:
+      awsCredentials: "Amazon"
+      regionName: "us-west-1"
+      awsCommand: "s3"
+      awsSubCommand: "sync"
+      awsArguments: "--cache-control 'max-age=604800' --acl public-read --exclude index.html ./build s3://damnit"
+  - task: AWSCLI@1
+    inputs:
+      awsCredentials: "Amazon"
+      regionName: "us-west-1"
+      awsCommand: "s3"
+      awsSubCommand: "sync"
+      awsArguments: "--cache-control 'no-cache' --acl public-read --delete ./build s3://damnit"
+  - task: AWSCLI@1
+    inputs:
+      awsCredentials: "Amazon"
+      awsCommand: "cloudfront"
+      awsSubCommand: "create-invalidation"
+      awsArguments: "--distribution-id E16WTFGOH8PVRG --paths /* --region us-west-1"
