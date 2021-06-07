@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { addWeeks, addMonths } from "date-fns";
+import { addWeeks, addMonths, endOfMonth } from "date-fns";
 
 import { GROUP_BY_DEFAULTS } from "./constants";
 
@@ -31,7 +31,7 @@ function FinanceWrapper({ children }) {
       case "Month":
         _setDateRange(([startDate, endDate]) => [
           addMonths(startDate, -1),
-          addMonths(endDate, -1),
+          endOfMonth(addMonths(endDate, -1)),
         ]);
         break;
     }
@@ -54,7 +54,7 @@ function FinanceWrapper({ children }) {
       case "Month":
         _setDateRange(([startDate, endDate]) => [
           addMonths(startDate, 1),
-          addMonths(endDate, 1),
+          endOfMonth(addMonths(endDate, 1)),
         ]);
         break;
     }
