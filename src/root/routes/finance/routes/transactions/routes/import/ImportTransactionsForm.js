@@ -19,16 +19,16 @@ const ImportTransactionsForm = ({ onChange }) => {
               const transactions =
                 ofxData.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
               const relevantTransactions = transactions.filter(
-                ({ TRNTYPE }) => {
+                (transaction) => {
+                  const { TRNTYPE } = transaction;
                   if (
                     TRNTYPE === "CHECK" ||
                     TRNTYPE === "PAYMENT" ||
                     TRNTYPE === "CASH" ||
-                    TRNTYPE === "DIRECTDEP" ||
                     TRNTYPE === "DIRECTDEBIT" ||
                     TRNTYPE === "REPEATPMT"
                   ) {
-                    alert("DETECTED UNHANDLED TRANSACTION TYPE");
+                    alert(`DETECTED UNHANDLED TRANSACTION TYPE: ${TRNTYPE}`);
                   }
                   return TRNTYPE === "DEBIT" || TRNTYPE === "POS";
                 }
